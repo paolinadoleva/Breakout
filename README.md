@@ -194,14 +194,14 @@ Your instructor will ask additional questions regarding your implementation and 
 
 ## Rubric
 * 40 - Participation
-* 30 - Ball working correctly
+* 25 - Ball working correctly
   * 5 - Ball starts out on top of the paddle and is bounced upward.
     > You may also start the ball above the paddle and have it drop down (either implementation is acceptable.)
-  * 5 - Ball is deflected when it hits the paddle (Movement does not need to be perfect).
-  * 20 - Ball is deflected when it hits a brick (Movement does not need to be perfect).
-* 20 - Paddle Working correctly
+  * 10 - Ball is deflected when it hits a brick (Movement does not need to be perfect).
+  * 10 - Ball is deflected when it hits the paddle.
+  The ball should tend toward the left when hitting the left side of the paddle, and to the right when hitting the right.
+* 5 - Paddle Working correctly
   * 5 - Paddle does not leave the bounds of the screen.
-  * 15 - Paddle deflects the ball with an angle based on where the ball hits.
 * 30 - Brick working correctly
   * 15 - Bricks should have health that is decreased when a ball hits it.
   * 15 - Bricks should be destroyed when their health reaches 0.
