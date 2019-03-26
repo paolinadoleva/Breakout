@@ -10,7 +10,7 @@ Now that you have had time to play with and experiments with developed code, it 
 
 That being said, these labs serve 3 main purposes:
 * Giving you exposure to larger codebases (similar to the first incremental project).
-* Working with and achieve __milestones__ (you may already be familiar with this if you've taken ENGR 121).
+* Working with and achieving __milestones__ (you may already be familiar with this if you've taken ENGR 121).
 * Working as part of a team to achieve success in coding.
  
 > __PAIRED PROGRAMMING:__ We will be implementing paired programming in a similar fashion as the previous half of the semester.
@@ -213,7 +213,7 @@ Now that we have created classes for each of the Breakout objects, it is time to
 One of the most important aspects to creating a real-time project is to design it with various __[states](https://en.wikipedia.org/wiki/State_(computer_science))__ in mind.
 For our game, all a state means is that we have a past, a present, and a future that we need to be aware of.
 
-States all have a definitions (what they do), and a transition (how they change over time).
+States all have a definition (what they do), and a transition (how they change over time).
 These series of states make up a __state diagram__.
 For any large project, your should define your state diagram by hand before implementing it in code (e.g. creating a whiteboard sketch, Microsoft Visio diagram, etc).
 
@@ -222,7 +222,7 @@ For our project, the model will be provided to you, your job is to translate it 
 Let's create a simple model using Breakout.
 
 #### State Definitions:
-Classically, we have 3 primary states: a play state, a pause state, and a game over state.
+In Breakout, we have 3 primary states: a play state, a pause state, and a game over state.
 * During the game state, the behavior of the program should allow it to take user input, process game changes, and display the changes back to the user.
 * During the game over state, the game should sit idle and wait for a user to restart the game (classically, this would be an arcade machine waiting for a user to insert enough coins to play).
   In our case, this is just the game waiting for the user to press the space bar.
