@@ -317,7 +317,55 @@ Every time the ball goes off screen, the lives of the player should decrease by 
 When a user runs out of lives, the game should end.
 When the user starts up the game again, the level should be reset to 1, the score should be set to 0, and the number of lives should be reset to the starting number.
 
+## Writing Text to the Screen
+In order to display statistics to the user, you will need to write to the screen.
+The following code snippets may help.
 
+__given.py__
+```
+import pygame
+
+import random
+
+#############################
+# HELPERS FOR TEXT RENDERING
+#############################
+
+# Initialize the font library.
+pygame.font.init()
+
+class Fonts:
+    TEXT_FONT     = pygame.font.SysFont('Impact', 30)
+    TITLE_FONT    = pygame.font.SysFont('Impact', 100)
+    SUBTITLE_FONT = pygame.font.SysFont('Impact', 50)
+
+class Colors:
+    WHITE      = (255, 255, 255)
+    BLACK      = (  0,   0,   0)
+    RED        = (255,   0,   0)
+    GREEN      = (  0, 255,   0)
+    BLUE       = (  0,   0, 255)
+    CYAN       = (  0, 255, 255)
+    MAGENTA    = (255,   0, 255)
+    YELLOW     = (255, 255,   0)
+    LIGHT_GREY = (192, 192, 192)
+    GREY       = (128, 128, 128)
+    DARK_GREY  = ( 64,  64,  64)
+
+def draw_text_to_screen(screen, text, x, y, color, font):
+    render_text = font.render(text, False, color)
+    screen.blit(render_text, (x, y))
+```
+
+__main.py__
+```
+from src.given import Fonts
+from src.given import Colors
+
+# Write "Paused" to the screen
+given.draw_text_to_screen(screen, 'Paused', <topleftx>, <toplefty>, Colors.WHITE, Fonts.TITLE_FONT)
+
+```
 ## Submission
 For this lab, you will present your results to your instructor in the Week 12 Scrum.
 Your instructor will ask additional questions regarding your implementation and other general knowledge.
