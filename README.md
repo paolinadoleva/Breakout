@@ -10,7 +10,7 @@ Now that you have had time to play with and experiments with developed code, it 
 
 That being said, these labs serve 3 main purposes:
 * Giving you exposure to larger codebases (similar to the first incremental project).
-* Working with and achieving __milestones__ (you may already be familiar with this if you've taken ENGR 121).
+* Working with and achieve __milestones__ (you may already be familiar with this if you've taken ENGR 121).
 * Working as part of a team to achieve success in coding.
  
 > __PAIRED PROGRAMMING:__ We will be implementing paired programming in a similar fashion as the previous half of the semester.
@@ -210,7 +210,7 @@ Your instructor will ask additional questions regarding your implementation and 
 Now that we have created classes for each of the Breakout objects, it is time to get the game working.
 
 ## Game States
-One of the most important aspects to creating a real-time project is to design it with various __[states](https://en.wikipedia.org/wiki/State_(computer_science\))__ in mind.
+One of the most important aspects to creating a real-time project is to design it with various __[states](https://en.wikipedia.org/wiki/State_(computer_science))__ in mind.
 For our game, all a state means is that we have a past, a present, and a future that we need to be aware of.
 
 States all have a definitions (what they do), and a transition (how they change over time).
