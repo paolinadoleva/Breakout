@@ -54,7 +54,7 @@ IF YOU AND YOUR PARTNER CHOOSE TO WORK AHEAD, PLEASE WORK TOGETHER, ANY CODE WHI
 * 100 points | Week 12 Milestones (graded on Week 13)
 * 100 points | Week 13 Milestones (graded on Week 14, as part of the presentation)
 * 100 points | Week 14 Presentation
-* 300 points | Final Project Submission (due during finals week [date TBD])
+* 300 points | Final Project Submission (due `4/26/2019 at 11:59 pm`)
 
 All weeks will count the same as a normal lab (100 points).
 The final presentation will also count as a normal lab grade.
@@ -214,7 +214,7 @@ One of the most important aspects to creating a real-time project is to design i
 For our game, all a state means is that we have a past, a present, and a future that we need to be aware of.
 
 States all have a definitions (what they do), and a transition (how they change over time).
-Thiese series of states make up a __state diagram__.
+These series of states make up a __state diagram__.
 For any large project, your should define your state diagram by hand before implementing it in code (e.g. creating a whiteboard sketch, Microsoft Visio diagram, etc).
 
 For our project, the model will be provided to you, your job is to translate it into code.
@@ -228,7 +228,7 @@ Classically, we have 3 primary states: a play state, a pause state, and a game o
   In our case, this is just the game waiting for the user to press the space bar.
 * During the pause state, the game should sit idle and wait for a user to un-pause the game.
 
-#### State Trasitions
+#### State Transitions
 Now that we have defined our states, we need to define our state transitions.
 * We should have our game start in the game over state, since it is how the game will have ended previously.
   The Game over state should be what the game loads into upon initialization.
@@ -239,8 +239,8 @@ Now that we have defined our states, we need to define our state transitions.
   * the play state will transition to the game over state when the user runs out of lives or the user terminates the game manually.
 * Finally, the pause state is very similar to the game over state since it transitions to the play state when a user un-pauses the game.
 
-Before you start writing code, you should first write this out as a state diagram.
-Because your game may be different than the given game, your diagram may differ than what was described above.
+![State Diagram](/docs/img/breakout_states.png)
+> Because your final game may be different than the given game, your diagram may eventually differ than what is described above.
 
 ## Implementing States
 The obvious follow up questions is __"How do I write this in code?"__
