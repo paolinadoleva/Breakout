@@ -161,8 +161,14 @@ class Brick(Paddle):
     #     else:
     #         pass
 
-    def update(self):
-        self.movepos = [self.rect.x, self.rect.y]
+    # def update(self):
+    #     newpos = self.rect.move(self.movepos)
+    #     if self.area.contains(newpos):
+    #         self.rect = newpos
+    #     pygame.event.pump()
+
+    def add_more(self):
+        pass
 
 
 '''
@@ -188,6 +194,7 @@ def main():
     # Initialize brick
     global brick
     brick = Brick()
+    brick1 = Brick(320,240)
 
     # Initialize ball
     speed = 13
@@ -205,22 +212,19 @@ def main():
     ballsprite = pygame.sprite.RenderPlain(ball)
     # NEW
     bricksprite = pygame.sprite.RenderPlain(brick)
+    # bricksprite.add(brick)
+    # bricksprite.add(brick1)
 
-    top = 0
-    for row in range(3):
-        # 32 columns of blocks
-        for column in range(3):
-            # Create a block (color,x,y)
-            block = Brick(column, top)
-            # blocks.add(block)
+
+
+    #Multile bricks - works except that there needs to be a way to limit the screen
+    x = 0
+    for new_x in range(0, 640, 110):
+        for new_y in range(0, 480, 100):
+            block = Brick(new_x, new_y)
             bricksprite.add(block)
-        # Move the top of the next row down
-        top += column + 2
 
-    # for row in range(3):
-    #     for col in range(4):
-    #         brick1 = Brick()
-    #         bricksprite.add(brick1)
+
 
     # Blit everything to the screen
     screen.blit(background, (0, 0))
@@ -258,8 +262,6 @@ def main():
         ballsprite.draw(screen)
         playersprites.draw(screen)
         bricksprite.draw(screen)
-
-
 
         if hit_bricks:
             bricksprite.remove(brick)
