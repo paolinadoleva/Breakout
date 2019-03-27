@@ -1,4 +1,3 @@
-
 VERSION = "0.4"
 
 import sys
@@ -32,6 +31,8 @@ def calcnewpos(rect, vector):
 """
 ----------------------------------------BALL----------------------------------------------
 """
+
+
 class Ball(pygame.sprite.Sprite):
     """A ball that will move across the screen
     Returns: ball object
@@ -85,6 +86,8 @@ class Ball(pygame.sprite.Sprite):
 """
 -----------------------------------------PADDLE-----------------------------------------------
 """
+
+
 class Paddle(pygame.sprite.Sprite):
     """Movable tennis 'bat' with which one hits the ball
     Returns: bat object
@@ -131,19 +134,23 @@ class Paddle(pygame.sprite.Sprite):
 """
 ------------------------------BRICK---------------------------------------------
 """
+
+
 class Brick(Paddle):
 
-    def __init__(self, health=1):
+    def __init__(self, x=0, y=0, health=1):
         Paddle.__init__(self)
         self.image = load_png('basic_block.png')
         self.rect = self.image.get_rect()
         self.__hp = health
+        self.rect.x = x
+        self.rect.y = y
         self.reinit()
 
     def reinit(self):
         self.state = "still"
-        self.movepos = [0,0]
-        #self.rect.midtop = self.area.midtop
+        self.movepos = [0, 0]
+        # self.rect.midtop = self.area.midtop
 
     # def count_hits(self):
     #
@@ -154,13 +161,15 @@ class Brick(Paddle):
     #     else:
     #         pass
 
-
     def update(self):
-        pass
+        self.movepos = [self.rect.x, self.rect.y]
+
 
 '''
 ----------------------------MAIN METHOD---------------------
 '''
+
+
 def main():
     # Initialize screen
     pygame.init()
@@ -185,14 +194,33 @@ def main():
 
     # maybe used for the half paddle??
     rand = 0.1 * random.randint(5, 8)
-    ball = Ball((0.47, speed))
 
+    ###changed angle from 0.47 to -300
+    # seems to start the ball vertically down however it gets it stuck
+    ###going up and down
+    ball = Ball((0.47, speed))
 
     # Initialize sprites
     playersprites = pygame.sprite.RenderPlain(player1)
     ballsprite = pygame.sprite.RenderPlain(ball)
     # NEW
     bricksprite = pygame.sprite.RenderPlain(brick)
+
+    top = 0
+    for row in range(3):
+        # 32 columns of blocks
+        for column in range(3):
+            # Create a block (color,x,y)
+            block = Brick(column, top)
+            # blocks.add(block)
+            bricksprite.add(block)
+        # Move the top of the next row down
+        top += column + 2
+
+    # for row in range(3):
+    #     for col in range(4):
+    #         brick1 = Brick()
+    #         bricksprite.add(brick1)
 
     # Blit everything to the screen
     screen.blit(background, (0, 0))
@@ -209,6 +237,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     player1.moveleft()
@@ -217,6 +246,10 @@ def main():
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     player1.still()
+
+        # actually makes ball and brick collide
+        hit_bricks = pygame.sprite.spritecollide(ball, bricksprite, True)
+
         # Update and display everything
         screen.blit(background, ball.rect, ball.rect)
         screen.blit(background, player1.rect, player1.rect)
@@ -224,13 +257,12 @@ def main():
         playersprites.update()
         ballsprite.draw(screen)
         playersprites.draw(screen)
-    # NEW
-        for row in range(3):
-            for col in range(4):
-                brick1 = Brick()
-                bricksprite.add(brick1)
         bricksprite.draw(screen)
 
+
+
+        if hit_bricks:
+            bricksprite.remove(brick)
 
         pygame.display.flip()
 
