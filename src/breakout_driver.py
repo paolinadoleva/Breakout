@@ -220,7 +220,7 @@ def main():
     #Multile bricks - works except that there needs to be a way to limit the screen
     x = 0
     for new_x in range(0, 640, 110):
-        for new_y in range(0, 480, 100):
+        for new_y in range(0, 300, 70):
             block = Brick(new_x, new_y)
             bricksprite.add(block)
 
