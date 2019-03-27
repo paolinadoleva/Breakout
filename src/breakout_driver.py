@@ -41,7 +41,7 @@ class Ball(pygame.sprite.Sprite):
 
     def __init__(self, vector):
         pygame.sprite.Sprite.__init__(self)
-        self.image = load_png('ball.png')
+        self.image = load_png('image.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
@@ -180,7 +180,7 @@ def main():
     # Initialize screen
     pygame.init()
     screen = pygame.display.set_mode((640, 480))
-    pygame.display.set_caption('Tom\'s Pong: v' + str(VERSION))
+    pygame.display.set_caption('(bour, doleva)\'s Pong: v' + str(VERSION))
 
     # Fill background
     background = pygame.Surface(screen.get_size())
