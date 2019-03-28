@@ -56,15 +56,23 @@ class Ball(pygame.sprite.Sprite):
         self.rect = newpos
         (angle, z) = self.vector
 
+
+
         if not self.area.contains(newpos):
             tl = not self.area.collidepoint(newpos.topleft)
             tr = not self.area.collidepoint(newpos.topright)
             bl = not self.area.collidepoint(newpos.bottomleft)
             br = not self.area.collidepoint(newpos.bottomright)
+            bm = self.area.midbottom
+            # brick_1 = (pygame.sprite.spritecollide(self.rect, not self.rect, True))
             if (tr and tl) or (br and bl):
                 angle = -angle
             if (tl and bl) or (tr and br):
                 angle = math.pi - angle
+            if bm and not tl and not tr:
+                z = 0
+
+
 
         else:
             # Deflate the rectangles so you can't catch a ball behind the bat
@@ -81,6 +89,11 @@ class Ball(pygame.sprite.Sprite):
             elif self.hit:
                 self.hit = not self.hit
         self.vector = (angle, z)
+
+
+
+
+
 
 
 """
@@ -129,6 +142,8 @@ class Paddle(pygame.sprite.Sprite):
     def still(self):
         self.movepos = [0, 0]
         self.state = "still"
+
+
 
 
 """
@@ -202,10 +217,10 @@ def main():
     # maybe used for the half paddle??
     rand = 0.1 * random.randint(5, 8)
 
-    ###changed angle from 0.47 to -300
+    ###changed angle from 0.47 to -300 => a theata of 1.5 has a similar effect
     # seems to start the ball vertically down however it gets it stuck
     ###going up and down
-    ball = Ball((0.47, speed))
+    ball = Ball((1.5, speed))
 
     # Initialize sprites
     playersprites = pygame.sprite.RenderPlain(player1)
@@ -217,10 +232,10 @@ def main():
 
 
 
-    #Multile bricks - works except that there needs to be a way to limit the screen
+    #Multiple bricks - works except that there needs to be a way to limit the screen
     x = 0
     for new_x in range(0, 640, 110):
-        for new_y in range(0, 300, 70):
+        for new_y in range(0, 300, 60): #480, 100
             block = Brick(new_x, new_y)
             bricksprite.add(block)
 
@@ -238,6 +253,7 @@ def main():
         # Make sure game doesn't run at more than 60 frames per second
         clock.tick(60)
 
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
@@ -254,6 +270,8 @@ def main():
         # actually makes ball and brick collide
         hit_bricks = pygame.sprite.spritecollide(ball, bricksprite, True)
 
+
+
         # Update and display everything
         screen.blit(background, ball.rect, ball.rect)
         screen.blit(background, player1.rect, player1.rect)
@@ -263,8 +281,12 @@ def main():
         playersprites.draw(screen)
         bricksprite.draw(screen)
 
+
         if hit_bricks:
-            bricksprite.remove(brick)
+            bricksprite.remove(bricksprite)
+
+
+
 
         pygame.display.flip()
 
