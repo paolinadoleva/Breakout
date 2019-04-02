@@ -396,42 +396,6 @@ When the original Breakout was developed there was no way of saving a game, and 
 
 We will use binary file I/O to save and load the game.
 
-The game should be saved whenever a user exits the screen.
-If there is a save file present upon loading the game, the previous game state should be loaded instead of starting a new game.
-If the user runs out of lives during the game, any previous save files should be deleted.
-If the game is loaded into its game over state, no save file should be created.
-
-__Things you will need to keep track of.__
-* Game
-  * Score
-  * Level
-  * Lives
-* Ball
-  * Location
-    * X-Position
-    * Y-Position
-  * Motion
-    * Velocity
-    * Theta
-    * __OR__
-    * X-Velocity
-    * Y-Velocity
-  * State __(Use this for Lab 13)__
-    * Power-Up Status
-      * Power-Up Type
-      * Power-Up Time
-* Paddle
-  * Location
-    * X-Position
-    * Y-Position
-* Bricks __(for each brick)__
-  * Location
-    * X-Position
-    * y-Position
-  * Status
-    * Health
-    * Power-Up Brick __(Use this for lab 13)__
-
 ## Binary File I/O
 We will be saving the values as bytes for 2 reasons.
 1. Raw binary is smaller than saved text.
@@ -540,6 +504,53 @@ file_path = os.path.join("data", "test_file.dat")
 with open(file_path,"wb") as bin_out:
     bin_out.write(ba)
 ```
+
+## Implementing Binary File I/O in Breakout
+When adding save files, you should adhere to the following.
+
+* The game should be saved whenever a user exits the screen.
+* If there is a save file present upon loading the game, the previous game state should be loaded instead of starting a new game.
+* If the user runs out of lives during the game, any previous save files should be deleted.
+* If the game is loaded into its game over state, no save file should be created.
+
+__Things you will need to keep track of.__
+* Game
+  * Score
+  * Level
+  * Lives
+* Ball
+  * Location
+    * X-Position
+    * Y-Position
+  * Motion
+    * Velocity
+    * Theta
+    * __OR__
+    * X-Velocity
+    * Y-Velocity
+  * State __(Add this for Lab 13)__
+    * Power-Up Status
+      * Power-Up Type
+      * Power-Up Time
+* Paddle
+  * Location
+    * X-Position
+    * Y-Position
+* Bricks __(for each brick)__
+  * Location
+    * X-Position
+    * y-Position
+  * Status
+    * Health
+    * Power-Up Brick __(Add this for lab 13)__
+
+### Binary File I/O Notes
+When importing and exporting states, you will notice that various objects have different types of information.
+This means that the binary format of a brick will differ from that of a ball.
+When reading and writing binary files, you will need to use multiple formats when packing and unpacking data.
+
+When importing data, your approach will be similar to that of lab 6.
+You will take in the data and instantiate objects based on the data (e.g. given a Brick's location and health, instantiate that brick and add it to the screen).
    
 ## Submission
 For this lab, you will present your results to your instructor in the Week 13 Scrum.
@@ -547,9 +558,10 @@ Your instructor will ask additional questions regarding your implementation and 
 
 ## Rubric
 * 40 - Participation
-* 30 - Saving and loading games works
-* 15 - No extraneous files are created
-* 15 - Stale save files are deleted once the game ends
+* 20 - You can create a game save state.
+* 20 - Loading data works.
+* 10 - No extraneous files are created.
+* 10 - Stale save files are deleted once it is game over.
 
 # Lab 13 - Integration
 This will be the final lab for this project.
