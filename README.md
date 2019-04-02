@@ -380,7 +380,7 @@ Your instructor will ask additional questions regarding your implementation and 
   * 10 - Working pause menu
     * 5 - Pause menu is triggered by user input. (Pause menu cannot be activated during the Game Over screen)
     * 5 - Pause menu is terminated by user input.
-* 15 - Brick deflection is fluid and fun to play (i.e. not buggy)
+* 20 - Brick deflection is fluid and fun to play (i.e. not buggy)
 * 15 - Game keeps track of score, lives, and level.
   * 3 - Score is increased when hitting bricks (or destroying them).
     > I will leave this as a creative choice to you.
@@ -432,8 +432,114 @@ __Things you will need to keep track of.__
     * Health
     * Power-Up Brick __(Use this for lab 13)__
 
+## Binary File I/O
+We will be saving the values as bytes for 2 reasons.
+1. Raw binary is smaller than saved text.
+2. Raw binary can be converted more easily into number values than string text.
 
+When writing binary we will be using the python `struct` module to pack and unpack bytes.
+Those bytes are then fed into a `bytearray` object which can be written to a file.
 
+### Some Theory
+The pack and unpack functions take 2 parameters, a `format string` and the `data objects` themselves.
+The format string defines how your data is represented (e.g. how many ints, floats, or characters).
+The format string also describes the `Endian` or arrangement of bytes.
+`Little Endian` is a format which defines a byte order as `Least-Significant Bit (LSB)` to `Most-Significant Bit (MSB)`
+`Big Endian` is the opposite, it defines the byte order in the standard `MSB` to `LSB` format.
+
+For example the format string `'>id'` says that there is a integer followed by a floating point number represented in big endian format.
+
+If we used the following binary string as an example, we would pull out. `5` and `5.0`.
+
+`00000000 00000000 00000000 00000101 1000000 10100000 00000000 00000000`
+
+This string contains 8 bytes, the first 4 represent a binary integer, and the second 4 bytes represent a binary floating point number.
+
+Changing the `Endian` of a byte string does not simply reverse the order of the bits, instead it, changes the bit order of each byte.
+
+If we were to rewrite the above string in `Little Endian` it would be written like so.
+
+`10100000 00000000 00000000 00000000 0000000 00000000 00000101 00000001`
+
+If you need more reference materials, please review the [slides](docs/Binary_File_IO.pdf) from class tonight.
+
+### Some Practice
+Now that we have seen how the formatting works, we can actually implement it.
+The beauty of the `struct` module is that it allows us to skip having to manually calculate or write code to manipulate bits.
+
+The following is some sample code for reading and writing in binary.
+
+__read_binary.py__
+```
+import struct
+import os.path
+
+if __name__ == '__main__':
+
+    # Instantiate list (i.e. Memory object)
+    int_list   = []
+    float_list = []
+
+    # Open the file to read in binary
+    with open(os.path.join("data", "test_file.dat"), "rb") as bin_in:
+        # Read the file as raw binary
+        ba = bytearray(bin_in.read())
+
+    # Designate format
+    format = '>id'
+    
+    # Designate the chuck size of the byte array.
+    # A chunk is a volume of information that is extracted in a given
+    # iteration through the bytearray.
+    # This is the reverse of extending the byte array.
+    chunk_size = struct.calcsize(format)
+
+    # Determine how many chunks are in the bytearray
+    num_chunks = len(ba) // chunk_size
+    
+    # For every chunk in the list
+    for i in range(num_chunks):
+        # Slice the bytearray into a given chunk of data
+        chunk = ba[i * chunk_size : (i+1) * chunk_size]
+        
+        # Unpack the chunk into a tangible value
+        int_value, float_value = struct.unpack(format, chunk)
+        
+        # Append the values to the list.
+        int_list.append(int_value)
+        float_list.append(float_value)
+
+```
+
+__write_binary.py__
+```
+import struct
+import os
+
+if __name__ == '__main__':
+
+    # Define data
+    int_list       = [1, 42, 13]
+    float_list     = [3.14, 42.0, 3.14/2]
+
+    # Designate format
+    format='>id'
+
+    # Instantiate an empty bytearray
+    ba = bytearray()
+    
+    # iterate through each list
+    for int_value, float_value in zip(int_list, float_list):
+        # Pack each set of bytes
+        chunk = struct.pack(format, int_value, float_value)
+        # Append the bytes to the output
+        ba.extend(chunk)
+
+# Open the file to write binary and write the bytes.
+file_path = os.path.join("data", "test_file.dat")
+with open(file_path,"wb") as bin_out:
+    bin_out.write(ba)
+```
    
 ## Submission
 For this lab, you will present your results to your instructor in the Week 13 Scrum.
