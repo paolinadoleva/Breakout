@@ -643,7 +643,7 @@ I want to see the following information from each group:
 You may use the following as a rubric for your slides:
 * Introduction slide. (1 slide)
 * Brief overview of your game. (1-2 slide(s))
-> Include screenshots from your game here.
+> Include detailed screenshots or gameplay video from your game here.
 * A brief diagram describing how your game works. (1-2 slide(s))
 * Disagreements. (1 slide)
 * Lessons Learned. (1 slide)
