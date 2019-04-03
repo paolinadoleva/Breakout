@@ -626,14 +626,13 @@ A lot of the grade is going to be based on effort.
 
 # Lab 14 - Presentations
 
-The first 30 minutes of this lab will involve taking the "Super" quiz. Which will count for 2 quiz grades (4% of your overall grade).
+The first 20 minutes of this lab will involve taking the "Super" quiz. Which will count for 2 quiz grades (4% of your overall grade).
 
-The remaining 75 minutes will be spent on group presentations.
+The remaining 85 minutes will be spent on group presentations.
 Each group will present their project.
 The purpose of this lab is to gain additional practice presenting and evaluating the presentations of others.
 
 I want to see the following information from each group:
-* Live demo of the game (Explain how your game is unique).
 * A brief presentation (3-6 slides) about your project.
 * How did you construct your game?
 * What challenges did you face during development (from each partner)?
@@ -644,10 +643,12 @@ I want to see the following information from each group:
 You may use the following as a rubric for your slides:
 * Introduction slide. (1 slide)
 * Brief overview of your game. (1-2 slide(s))
-> Include screenshots from your game here, just in case you have issues with your demo.
+> Include screenshots from your game here.
 * A brief diagram describing how your game works. (1-2 slide(s))
 * Disagreements. (1 slide)
 * Lessons Learned. (1 slide)
+
+I want you to work with __Google Slides__ for this project (see the Submission section for more information).
 
 You and your partner must present for no fewer than __4 minutes__ and no longer than __6 minutes__.
 If your presentation is too long or short I will take off 10 points per minute (__yes, I will be timing__).
@@ -655,34 +656,49 @@ If your presentation is too long or short I will take off 10 points per minute (
 
 If you take longer than 7 minutes, I will likely cut you off (don't make me do this)!
 
-> __NOTE:__ If you and your partner do not have a way of presenting, please let me know beforehand so that I can download and load your project for your presentation.
-I will use your most up-to-date GitLab version, make sure that all of your changes are pushed and that you give me the correct repository.
+> __NOTE:__ You must submit the presentation to me by the due date.
+I will provide a computer and a clicker for you to work with.
+I will load your presentations ahead of time, so the order will mostly be random.
+
+### Live Demo (Optional)
+I will allow up to 5 groups per class to show a live demo of their game.
+You __MUST__ make sure that your game works and that you have a machine to present it with (you need an HDMI Port).
+If you choose to show a live demo, you will be given a couple of extra minutes to setup and show the demo.
+Additionally, if you choose this route, you will not need to include screenshots or dedicated slides in your presentation.
+
+I will send out an email shortly to see who is interested in presenting a live demo.
+The slots will be given on a __First-Come, First-Serve__ basis.
+If you have a slot and are no longer able to present, please notify me immediately so that I can reallocate the slot.
+Please keep the live demo as short and concise as possible, do not go over 2 minutes with it.
 
 ## Submission
 In order to receive credit for this lab, you must be present in lab to present your Breakout game.
 You must also be present for the duration of the lab to watch other groups present, only excused absences will be allowed.
-I will evaluate your presentation in class.
-You must submit your slides to scholar before the start of class.
+I will evaluate your presentation during class.
+
+Given the number of groups, we will be constrained for time.
+Therefore everyone must have a presentation ready to go.
+In order to facilitate this, I want you to use Google Slides and __share__ your slides with me by the due date.
+Please use your CNU Drive account (associated with your CNU email).
+Please share to the appropriate email address:
+* __mathew.bartgis.11@cnu.edu__
+* __jonathan.hill.15@cnu.edu__
 
 ## Rubric
-* 25 - Live demo of your game.
-* 40 - Discussion about your project (e.g. Challenges, enjoyment, knowledge gained).
-* 35 - Quality of the presentation.
-  * Quality of the content you present
-  * Quality of your slides
+* 50 - Quality of your talk.
+* 50 - Quality of your slides.
 
 __Presentation Length:__
 I will take the final score from above and take off points for going under 4 minutes or over 6 minutes.
 For example, a presentation that goes for 6:30 minutes or 3:30 minutes would lose 5 points, while a project that goes for 4:00 minutes exactly or 5:59 minutes would not lose any points.
-> If you use Google Slides, please submit your slides as a PDF (use the download as PDF option).
-Additionally, if you are using Microsoft PowerPoint, I would prefer the slides in a PDF format.
 
 __Presentation Quality:__
-Keep in mind that YOU should be doing the talking, not your presentations.
+Keep in mind that YOU should be doing the talking, not your slides.
 In other words, __PowerPoint != Presentation__.
 Presentations should convey visual ideas that are difficult to describe.
-They should also contain the basic bullet points to keep you on track during your presentation.
-They should not contain all of your speech, these are affectionately called __word walls__, and make for bad presentations.
+They should also contain only the basic bullet points to keep you on track during your presentation.
+They should not contain all of your speech!
+These layouts are affectionately called __word walls__, and they make for bad presentations.
 
 # Final Submission
 As mentioned earlier, there will be a final submission for this project.
@@ -695,25 +711,57 @@ That is the Friday at the end of exam week.
 > __PLEASE NOTE:__ You may submit ahead of the deadline.
 In fact I encourage you to do so if you are able.
 This submission is an opportunity for people who have missed some milestones to make up some points.
-If you have made your milestones, there is no benefit for submitting later, your grade will be identical to the milestones, please focus on your lecture final exams instead of working on this game!
+If you have made your milestones, your time will be better spent preparing for your other exams.
 
 ## Final Submission Rubric
 Your final project will be graded as follows.
 > __NOTE:__ This rubric does not contain participation credit!
 
-* 80 - Mechanics
-    * 20 - Your ball is controllable with the paddle
+* 60 - Game Mechanics
+    * 10 - Your ball should be controllable with the paddle
       > You should not use the default `angle = -angle`.
-    * 20 - Your ball deflects off of the bricks correctly.
+    * 10 - Your ball should deflect off of the bricks in a clean manner.
       > Your ball should not phase through bricks on side hits or top/bottom hits.
     * 10 - Your ball should start on top of the paddle or bounce down to the paddle when a level starts or a new life is used.
-      > An ideal solution would have the ball follow the paddle and get launched once the user hits a button.
+      > An ideal solution would have the ball follow the paddle and get launched once the user hits a key.
     * 10 - Blocks should have variable health
     * 10 - Blocks should be identifiable by their health.
     * 10 - Blocks should disappear once their health <= 0.
-* - States
-    * 10 - Your game should start in the Game Over phase (unless you have a saved game).
-    * 10 - Your game should transition to the play phase once the user selects an input.
+* 50 - Game States
+    * 10 - Your game should start in the Game Over phase (unless there is currently a saved game).
+    * 10 - Your game should transition to the play phase on user input.
+    * 10 - Your game should transition to the Game Over phase once the user runs out of lives.
+    * 10 - Your game should transition to the Paused state on user input from the play state.
+    * 10 - Your game should transition to the Play state on user input from the paused state.
+* 40 - Game Stats
+    * 10 - Your game should visually keep track of score
+    * 10 - Your game should visually keep track of level count
+    * 10 - Your game should visually keep track of lives
+    * 10 - Your game should reset all stats when it is Game Over
+* 50 - Game Saves
+    * 15 - Your game should save to a binary file.
+    * 15 - Your game should load from a binary file if one is available.
+      > This is the condition when the game should bypass the Game Over state (however, you may still have it so long as the previous game is loaded on the state transition instead of a new game).
+    * 10 - Your game should not create extraneous files
+      > If you are in the game over screen, you should not make a save.
+    * 10 - Your game should remove stale (old) save files once it is Game Over.
+  50 - Game Design
+    * 30 - Your game should have additional work put into it which makes it unique (Lab 13).
+      > This will be effort based and will be derived from the amount of content added.
+    * 10 - Your game should have multiple levels where new bricks are generated each time the level changes.
+    * 10 - Your game should progressively become harder.
+  50 - Game Quality
+    * 20 - Your game should be aesthetically appealing.
+      > You game should be smooth to play, not have any sprite or text artifacting, and have all sprites aligned properly.
+        While not required, you may add new sprites, sound effects, or background music.
+        Adding new content can ONLY HELP YOU!
+    * 30 - Your code will be subject to a manual code inspection.
+      I will be evaluating your code as follows
+        * Frequent and concise comments added to your code.
+        * Python documentation added to classes and functions.
+        * Using proper variable, function, and class names.
+        * Creating modular code (i.e. Reusing code where possible)
+        * Effective use of classes (i.e. Using object instantiation where appropriate).
 
 
 # Additional Documentation
