@@ -633,12 +633,21 @@ Each group will present their project.
 The purpose of this lab is to gain additional practice presenting and evaluating the presentations of others.
 
 I want to see the following information from each group:
-* Demo of the game (include multiple levels and power-ups if applicable).
+* Live demo of the game (Explain how your game is unique).
+* A brief presentation (3-6 slides) about your project.
+* How did you construct your game?
 * What challenges did you face during development (from each partner)?
   How did your team solve these?
   > __NOTE:__ These can be both in terms of code and disagreements with the team
-* What did you enjoy about the project (from each partner)?
 * What did you learn from the project (from each partner)?
+
+You may use the following as a rubric for your slides:
+* Introduction slide. (1 slide)
+* Brief overview of your game. (1-2 slide(s))
+> Include screenshots from your game here, just in case you have issues with your demo.
+* A brief diagram describing how your game works. (1-2 slide(s))
+* Disagreements. (1 slide)
+* Lessons Learned. (1 slide)
 
 You and your partner must present for no fewer than __4 minutes__ and no longer than __6 minutes__.
 If your presentation is too long or short I will take off 10 points per minute (__yes, I will be timing__).
@@ -653,20 +662,27 @@ I will use your most up-to-date GitLab version, make sure that all of your chang
 In order to receive credit for this lab, you must be present in lab to present your Breakout game.
 You must also be present for the duration of the lab to watch other groups present, only excused absences will be allowed.
 I will evaluate your presentation in class.
-You should have some supplemental material for your presentation once you have finished demonstrating your game (e.g. slides).
-> Include screenshots from your game, just in case you have issues with your demo.
+You must submit your slides to scholar before the start of class.
 
 ## Rubric
 * 25 - Live demo of your game.
 * 40 - Discussion about your project (e.g. Challenges, enjoyment, knowledge gained).
 * 35 - Quality of the presentation.
-  * Did you keep on topic?
-  * Did you have supplemental content (e.g. slides)?
+  * Quality of the content you present
+  * Quality of your slides
 
-__Presentation Length?__
+__Presentation Length:__
 I will take the final score from above and take off points for going under 4 minutes or over 6 minutes.
 For example, a presentation that goes for 6:30 minutes or 3:30 minutes would lose 5 points, while a project that goes for 4:00 minutes exactly or 5:59 minutes would not lose any points.
+> If you use Google Slides, please submit your slides as a PDF (use the download as PDF option).
+Additionally, if you are using Microsoft PowerPoint, I would prefer the slides in a PDF format.
 
+__Presentation Quality:__
+Keep in mind that YOU should be doing the talking, not your presentations.
+In other words, __PowerPoint != Presentation__.
+Presentations should convey visual ideas that are difficult to describe.
+They should also contain the basic bullet points to keep you on track during your presentation.
+They should not contain all of your speech, these are affectionately called __word walls__, and make for bad presentations.
 
 # Final Submission
 As mentioned earlier, there will be a final submission for this project.
