@@ -567,12 +567,31 @@ Your instructor will ask additional questions regarding your implementation and 
 This will be the final lab for this project.
 In this lab you will add to your game to make it stand out and be truly unique.
 
+This lab is titled __integration__ because typically the final step in a software project the __integration__ and __test__ phase.
+During this step, you will iron out all of the bugs in your project.
+Keep in mind that a bug may be any faulty code that needs to be addressed, but it may also refer to the __User Experience (UX)__ of your game.
+
+Upon the completion of the lab, your game should:
+* Not crash! (This is important!)
+  * If you have strange issues, you may want to consider implementing a __try/except__ block.
+* Transition from state to state.
+* Not have __artifacting__ (stale pixels that need to be removed from the screen).
+* Have all text displaying correctly.
+* Be intuitive:
+  * You should not have to explain the nuances of your game to me, it should be very obvious where everything is.
+  * You should tell me all of the inputs (Movement/pausing/starting the game) (I recommend putting these on the "Game Over" screen).
+* Not have __spaghetti code__ (that is, code which is overcomplicated or difficult to read or modify).
+* Be unique from everyone else's.
+
 There are no general guidelines to this lab other than whatever you add should be significant.
 > __NOTE:__ As a rule of thumb, you should put in at least the same level of effort into this lab as the other labs in the project.
 
 For those who may have fallen behind in previous weeks, please use this lab as an opportunity to catch back up and created something you can be proud of.
 
 ## Ideas
+Here are some implementation ideas that you may want to explore.
+Pick a couple of these if you don't have any ideas.
+
 * Use File I/O or Binary File I/O to save high scores and the names of the best players. __(Medium)__
 * Add a power up to the game:
   * Add a damage powerup that destroys all bricks and is not deflected by bricks. __(Medium)__
@@ -647,6 +666,39 @@ You should have some supplemental material for your presentation once you have f
 __Presentation Length?__
 I will take the final score from above and take off points for going under 4 minutes or over 6 minutes.
 For example, a presentation that goes for 6:30 minutes or 3:30 minutes would lose 5 points, while a project that goes for 4:00 minutes exactly or 5:59 minutes would not lose any points.
+
+
+# Final Submission
+As mentioned earlier, there will be a final submission for this project.
+This final submission will be worth __300 points__.
+This final submission needs to be submitted on an __individual__ basis (each partner submits).
+Please do not forget to submit something, it will really hurt you!
+
+The final submission deadline is `Friday, 4/26/2019 at 11:59 pm`.
+That is the Friday at the end of exam week.
+> __PLEASE NOTE:__ You may submit ahead of the deadline.
+In fact I encourage you to do so if you are able.
+This submission is an opportunity for people who have missed some milestones to make up some points.
+If you have made your milestones, there is no benefit for submitting later, your grade will be identical to the milestones, please focus on your lecture final exams instead of working on this game!
+
+## Final Submission Rubric
+Your final project will be graded as follows.
+> __NOTE:__ This rubric does not contain participation credit!
+
+* 80 - Mechanics
+    * 20 - Your ball is controllable with the paddle
+      > You should not use the default `angle = -angle`.
+    * 20 - Your ball deflects off of the bricks correctly.
+      > Your ball should not phase through bricks on side hits or top/bottom hits.
+    * 10 - Your ball should start on top of the paddle or bounce down to the paddle when a level starts or a new life is used.
+      > An ideal solution would have the ball follow the paddle and get launched once the user hits a button.
+    * 10 - Blocks should have variable health
+    * 10 - Blocks should be identifiable by their health.
+    * 10 - Blocks should disappear once their health <= 0.
+* - States
+    * 10 - Your game should start in the Game Over phase (unless you have a saved game).
+    * 10 - Your game should transition to the play phase once the user selects an input.
+
 
 # Additional Documentation
 
