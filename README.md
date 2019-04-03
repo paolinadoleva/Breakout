@@ -700,6 +700,10 @@ They should also contain only the basic bullet points to keep you on track durin
 They should not contain all of your speech!
 These layouts are affectionately called __word walls__, and they make for bad presentations.
 
+> This is NOT a public speaking course, and I will not grade you on your demeanor during the presentation.
+Being nervous, using filler words (e.g. like, um, etc.) will not count against you.
+I am only grading based on the quality of the content that you present.
+
 # Final Submission
 As mentioned earlier, there will be a final submission for this project.
 This final submission will be worth __300 points__.
