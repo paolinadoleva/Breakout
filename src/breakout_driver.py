@@ -1,10 +1,6 @@
 VERSION = "0.4"
 
-import sys
-import random
-import math
-import os
-import pygame
+import math, os, pygame
 from pygame.locals import *
 
 
@@ -40,7 +36,7 @@ class Ball(pygame.sprite.Sprite):
     Attributes: area, vector"""
 
     still = 0
-    play  = 1
+    play = 1
 
     def __init__(self, vector):
         pygame.sprite.Sprite.__init__(self)
@@ -92,7 +88,7 @@ class Ball(pygame.sprite.Sprite):
                     x1 = self.rect.centerx
                     dx = x1 - x2
                     dx /= 80
-                    angle = dx- (math.pi / 2)
+                    angle = dx - (math.pi / 2)
                     self.hit = not self.hit
                 elif self.hit:
                     self.hit = not self.hit
@@ -105,11 +101,6 @@ class Ball(pygame.sprite.Sprite):
                             angle = -angle
 
             self.vector = (angle, z)
-
-
-
-
-
 
 
 """
@@ -160,8 +151,6 @@ class Paddle(pygame.sprite.Sprite):
         self.state = "still"
 
 
-
-
 """
 ------------------------------BRICK---------------------------------------------
 """
@@ -188,8 +177,6 @@ class Brick(Paddle):
 
     def is_dead(self):
         return self.hp <= 0
-
-
 
     # def count_hits(self):
     #
@@ -234,8 +221,7 @@ def main():
     global brick_list
     brick_list = []
 
-
-    #Multiple bricks - works except that there needs to be a way to limit the screen
+    # 1025,128 vs 393,64
     for new_x in range(0, 1025, 128):
         for new_y in range(0, 393, 64):
             block = Brick(new_x, new_y)
@@ -243,78 +229,118 @@ def main():
 
     # Initialize ball
     speed = 13
-
-    ###changed angle from 0.47 to -300 => a theata of 1.5 has a similar effect
-    # seems to start the ball vertically down however it gets it stuck
-    ###going up and down
-    ball = Ball((math.pi/2, speed))
+    ball = Ball((math.pi / 2, speed))
 
     # Initialize sprites
     playersprites = pygame.sprite.RenderPlain(player1)
     ballsprite = pygame.sprite.RenderPlain(ball)
-    # NEW
     bricksprite = pygame.sprite.RenderPlain(brick_list)
-    # bricksprite.add(brick)
-    # bricksprite.add(brick1)
-
-
-
-
-
 
     # Blit everything to the screen
     screen.blit(background, (0, 0))
     pygame.display.flip()
 
+    # GAME STATES
+    lives = 3
+    GAME_OVER = "Game Over"
+    PLAY = "Play"
+    PAUSED = "Paused"
+    state = GAME_OVER
+    exit_requested = False
+
     # Initialize clock
     clock = pygame.time.Clock()
 
     # Event loop
-    while True:
+    while not exit_requested:
         # Make sure game doesn't run at more than 60 frames per second
         clock.tick(60)
 
+        events = pygame.event.get()
 
-        for event in pygame.event.get():
+        for event in events:
             if event.type == pygame.QUIT:
-                return
+                exit_requested = True
+        if exit_requested:
+            continue
 
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    player1.moveleft()
-                if event.key == pygame.K_RIGHT:
-                    player1.moveright()
-                if event.key == pygame.K_SPACE:
-                    ball.state = Ball.play
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    player1.still()
+        if state == GAME_OVER:
+            # Game Over Out
+            x = (screen.get_width() / 2) - 100
+            y = (screen.get_height() / 2) - 30
 
-        # actually makes ball and brick collide
-        # hit_bricks = pygame.sprite.spritecollide(ball, bricksprite, True)
+            draw_text_to_screen(screen, "Game Over", x, y, Colors.WHITE, Fonts.TITLE_FONT)
+
+
+            # Game Over Input
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        state = PLAY
+                        screen.fill(Colors.BLACK)
+
+        elif state == PAUSED:
+            # Game Over Out
+            x = (screen.get_width() / 2) - 100
+            y = (screen.get_height() / 2) - 30
+
+            draw_text_to_screen(screen, "Paused", x, y, Colors.WHITE, Fonts.TITLE_FONT)
+
+            # Game Over Input
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        # Unpause
+                        state = PLAY
+                        screen.fill(Colors.BLACK)
+
+        else:
+            screen.fill(pygame.Colors.BLACK)
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        player1.moveleft()
+                    if event.key == pygame.K_RIGHT:
+                        player1.moveright()
+                    if event.key == pygame.K_ESCAPE:
+                        state = PAUSED
+                        screen.fill(pygame.Colors.BLACK)
+                elif event.type == pygame.KEYUP:
+                    if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                        player1.still()
+
+            draw_text_to_screen(screen, "Lives: " + str(lives), 0, 0, Colors.WHITE, Fonts.TEXT_FONT)
+
+            if ball.rect.bottom >= screen.get_height():
+                lives -= 1
+                # Game Over
+                if lives == 0:
+                    lives = 3
+                    state = GAME_OVER
+                    screen.fill(Colors.BLACK)
+
+
         for brick in brick_list:
             if brick.is_dead():
                 brick_list.remove(brick)
                 bricksprite.remove(brick)
                 screen.fill((0, 0, 0))
 
-        # Update and display everything
         screen.blit(background, ball.rect, ball.rect)
         screen.blit(background, player1.rect, player1.rect)
         ballsprite.update()
         playersprites.update()
         ballsprite.draw(screen)
         playersprites.draw(screen)
-        bricksprite.draw(screen)
-
-
-        # if hit_bricks:
-        #     bricksprite.remove(bricksprite)
-
 
 
 
         pygame.display.flip()
+
+'''---------------------------------------------------------------------------------------------------------------------
+
+'''
+
 
 
 if __name__ == '__main__':
