@@ -624,52 +624,79 @@ If you have any addiitonal content other than the game, you will submit this via
 > __NOTE:__ This last lab is meant as an opportunity to have fun and enjoy the fruits of your labor in the last weeks.
 A lot of the grade is going to be based on effort.
 
-# Lab 14 - Presentations
+# Presentations
 
-The first 20 minutes of this lab will involve taking the "Super" quiz. Which will count for 2 quiz grades (4% of your overall grade).
+The first 20 minutes of the final lab will involve taking the "Super" quiz.
+The "Super" quiz will count for 2 quiz grades (4% of your overall grade).
 
 The remaining 85 minutes will be spent on group presentations.
 Each group will present their project.
 The purpose of this lab is to gain additional practice presenting and evaluating the presentations of others.
 
-I want to see the following information from each group:
-* A brief presentation (3-6 slides) about your project.
-* How did you construct your game?
-* What challenges did you face during development (from each partner)?
-  How did your team solve these?
-  > __NOTE:__ These can be both in terms of code and disagreements with the team
-* What did you learn from the project (from each partner)?
+I want you all to treat this as an "Elevator Pitch" to your future boss.
+The purpose is to show what you've done, how it is unique, and what you've gained from it.
 
-You may use the following as a rubric for your slides:
-* Introduction slide. (1 slide)
-* Brief overview of your game. (1-2 slide(s))
-> Include detailed screenshots or gameplay video from your game here.
-* A brief diagram describing how your game works. (1-2 slide(s))
-* Disagreements. (1 slide)
-* Lessons Learned. (1 slide)
+Keep in mind that this is will be a short presentation.
+Realistically, it should not take more than 1-1.5 hours to put your slides together.
+If you find yourself going over, please trim down the content before submission.
+There is a "Goldilocks" amount of content that you should keep in mind.
+
+This is __NOT__ a public speaking course, and I will __NOT__ grade you on your demeanor during the presentation.
+Being nervous, using filler words (e.g. like, um, etc.) will not count against you.
+I am only grading based on the quality and amount of content that you present.
+
+## Presentation Layout
+
+Please use the following format to structure your slides:
+
+* Introduction slide (1 slide)
+  > Who is in your team.
+  
+* Brief overview of your game (1-2 slide[s])
+  > Describe the rules of your game.
+  > Describe what unique things you did to your game.
+  > Show some screenshots or gameplay video from your game.
+  
+* A brief diagram describing how your game works (1-2 slide[s])
+  > Draw the states of your game.
+  > Draw the state transitions.
+  > Draw a diagram of your game (how classes interact).
+  
+* Challenges (1 slide)
+  > What roadblocks did you hit along the way?
+  > What design decisions did you have to make?
+  
+* Accomplishments/Lessons Learned (1 slide)
+  > How did you overcome the aforementioned roadblocks?
+  > What did you learn from this project?
 
 I want you to work with __Google Slides__ for this project (see the Submission section for more information).
 
 You and your partner must present for no fewer than __4 minutes__ and no longer than __6 minutes__.
 If your presentation is too long or short I will take off 10 points per minute (__yes, I will be timing__).
-> You and your partner should practice presenting before the final lab (At least run through it once)!
+> You and your partner should practice presenting before the final lab (At least run through the presentation once)!
 
 If you take longer than 7 minutes, I will likely cut you off (don't make me do this)!
 
-> __NOTE:__ You must submit the presentation to me by the due date.
-I will provide a computer and a clicker for you to work with.
-I will load your presentations ahead of time, so the order will mostly be random.
+> __NOTE:__ You must submit (share) the presentation to me by the due date.
+I will provide a computer and a clicker for you to present with.
+I will load your presentations ahead of time, so everything will be ready to go and the order will mostly be random.
 
 ### Live Demo (Optional)
 I will allow up to 5 groups per class to show a live demo of their game.
-You __MUST__ make sure that your game works and that you have a machine to present it with (you need an HDMI Port).
+You __MUST__ make sure that your game works and that you have a machine to present it with (you need an __HDMI Port__).
 If you choose to show a live demo, you will be given a couple of extra minutes to setup and show the demo.
-Additionally, if you choose this route, you will not need to include screenshots or dedicated slides in your presentation.
+You can use this as an opportunity to practice demonstrating live software.
 
 I will send out an email shortly to see who is interested in presenting a live demo.
 The slots will be given on a __First-Come, First-Serve__ basis.
 If you have a slot and are no longer able to present, please notify me immediately so that I can reallocate the slot.
-Please keep the live demo as short and concise as possible, do not go over 2 minutes with it.
+Please keep the live demo as short and concise as possible, please do not go over 2 minutes with it.
+
+If you present a live demo, your slides must still contain screenshots/live video gameplay.
+You may use your live demo to help supplement your gameplay slides (i.e. You can go through your slides more quickly if you have a live demo).
+> __NOTE:__ Presenting a live demo will neither hurt your grade nor help your grade.
+It is only being offered to give you an opportunity to practice presenting live software.
 
 ## Submission
 In order to receive credit for this lab, you must be present in lab to present your Breakout game.
@@ -685,8 +712,15 @@ Please share to the appropriate email address:
 * __jonathan.hill.15@cnu.edu__
 
 ## Rubric
-* 50 - Quality of your talk.
+* 50 - Quality of your content.
+  * 20 - Describe your game states definitions and state transitions.
+  * 15 - Describe the architecture of your game.
+  * 15 - Describe the technical challenges you faced.
 * 50 - Quality of your slides.
+  * 10 - None of your slides are __word walls__.
+  * 15 - You have visuals of your game.
+  * 15 - You have visuals/diagrams of your game's structure.
+  * 10 - You have concise bullet points.
 
 __Presentation Length:__
 I will take the final score from above and take off points for going under 4 minutes or over 6 minutes.
@@ -699,10 +733,6 @@ Presentations should convey visual ideas that are difficult to describe.
 They should also contain only the basic bullet points to keep you on track during your presentation.
 They should not contain all of your speech!
 These layouts are affectionately called __word walls__, and they make for bad presentations.
-
-> This is NOT a public speaking course, and I will not grade you on your demeanor during the presentation.
-Being nervous, using filler words (e.g. like, um, etc.) will not count against you.
-I am only grading based on the quality of the content that you present.
 
 # Final Submission
 As mentioned earlier, there will be a final submission for this project.
