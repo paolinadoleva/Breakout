@@ -3,6 +3,10 @@ VERSION = "0.4"
 import math, os, pygame
 from pygame.locals import *
 
+pygame.font.init()
+
+
+
 
 def load_png(name):
     """ Load image and return image object"""
@@ -52,13 +56,15 @@ class Ball(pygame.sprite.Sprite):
         self.rect.move_ip(self.area.centerx, self.area.centery)
 
     def update(self):
-
+        angle, z = self.vector
         if self.state == Ball.still:
             self.rect.midbottom = player1.rect.midtop
+            angle = math.pi / 2
+            self.vector = (angle, z)
         else:
             newpos = calcnewpos(self.rect, self.vector)
             self.rect = newpos
-            (angle, z) = self.vector
+
 
             if not self.area.contains(newpos):
                 tl = not self.area.collidepoint(newpos.topleft)
@@ -165,12 +171,6 @@ class Brick(Paddle):
         self.hp = health
         self.rect.x = x
         self.rect.y = y
-        self.reinit()
-
-    def reinit(self):
-        self.state = "still"
-        self.movepos = [0, 0]
-        # self.rect.midtop = self.area.midtop
 
     def hit(self):
         self.hp -= 1
@@ -178,31 +178,13 @@ class Brick(Paddle):
     def is_dead(self):
         return self.hp <= 0
 
-    # def count_hits(self):
-    #
-    #     while(self.__hp > 0):
-    #         if(self.):
-    #             self.__hp -= 1
-    #
-    #     else:
-    #         pass
-
-    # def update(self):
-    #     newpos = self.rect.move(self.movepos)
-    #     if self.area.contains(newpos):
-    #         self.rect = newpos
-    #     pygame.event.pump()
-
-    # def add_more(self):
-    #     pass
-
-
 def brick_gen():
+    b = []
     for new_x in range(0, 1025, 128):
         for new_y in range(0, 393, 64):
-            block = Brick(new_x, new_y)
-            brick_list.append(block)
-
+            block = Brick(new_x, new_y, 3)
+            b.append(block)
+    return b
 
 '''
 ----------------------------MAIN METHOD---------------------
@@ -210,6 +192,10 @@ def brick_gen():
 
 
 def main():
+
+    from src.given import Fonts
+    from src.given import Colors
+    from src.given import draw_text_to_screen
     # Initialize screen
     pygame.init()
     screen = pygame.display.set_mode((1024, 720))
@@ -230,8 +216,10 @@ def main():
     global brick_list
     brick_list = []
 
-    # 1025,128 vs 393,64
     brick_gen()
+
+    # 1025,128 vs 393,64
+    # brick_gen()
     # Initialize ball
     speed = 13
     ball = Ball((math.pi / 2, speed))
@@ -255,6 +243,7 @@ def main():
 
     # Initialize clock
     clock = pygame.time.Clock()
+
 
     # Event loop
     while not exit_requested:
@@ -299,21 +288,27 @@ def main():
                         screen.fill(Colors.BLACK)
 
         else:
-            screen.fill(pygame.Colors.BLACK)
+            screen.fill(Colors.BLACK)
             for event in events:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
                         player1.moveleft()
                     if event.key == pygame.K_RIGHT:
                         player1.moveright()
+                    if event.key == pygame.K_SPACE:
+                        ball.state = Ball.play
                     if event.key == pygame.K_ESCAPE:
                         state = PAUSED
-                        screen.fill(pygame.Colors.BLACK)
+                        screen.fill(Colors.BLACK)
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                         player1.still()
 
             draw_text_to_screen(screen, "Lives: " + str(lives), 0, 0, Colors.WHITE, Fonts.TEXT_FONT)
+
+            if len(brick_list) == 0:
+                brick_list = brick_gen()
+                bricksprite = pygame.sprite.RenderPlain(brick_list)
 
             if ball.rect.bottom >= screen.get_height():
                 lives -= 1
@@ -323,24 +318,26 @@ def main():
                     state = GAME_OVER
                     screen.fill(Colors.BLACK)
 
-        for brick in brick_list:
-            if brick.hit():
-                score += 10
+
 
             draw_text_to_screen(screen, "Score:" + str(score), 0, 720, Colors.WHITE, Fonts.TEXT_FONT)
 
-            if brick.is_dead():
-                brick_list.remove(brick)
-                bricksprite.remove(brick)
-                screen.fill((0, 0, 0))
+            for brick in brick_list:
+                if brick.is_dead():
+                    brick_list.remove(brick)
+                    bricksprite.remove(brick)
+                    screen.fill((0, 0, 0))
 
-        screen.blit(background, ball.rect, ball.rect)
-        screen.blit(background, player1.rect, player1.rect)
-        ballsprite.update()
-        playersprites.update()
-        ballsprite.draw(screen)
-        playersprites.draw(screen)
-
+            screen.blit(background, ball.rect, ball.rect)
+            screen.blit(background, player1.rect, player1.rect)
+            for brick in brick_list:
+                screen.blit(background, brick.rect, brick.rect)
+            ballsprite.update()
+            playersprites.update()
+            ballsprite.draw(screen)
+            playersprites.draw(screen)
+            bricksprite.draw(screen)
+            ballsprite.update()
         pygame.display.flip()
 
 
