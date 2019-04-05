@@ -54,7 +54,7 @@ IF YOU AND YOUR PARTNER CHOOSE TO WORK AHEAD, PLEASE WORK TOGETHER, ANY CODE WHI
 * 100 points | Week 12 Milestones (graded on Week 13)
 * 100 points | Week 13 Milestones (graded on Week 14, as part of the presentation)
 * 100 points | Week 14 Presentation
-* 300 points | Final Project Submission (due during finals week [date TBD])
+* 300 points | Final Project Submission (due `4/26/2019 at 11:59 pm`)
 
 All weeks will count the same as a normal lab (100 points).
 The final presentation will also count as a normal lab grade.
@@ -194,14 +194,14 @@ Your instructor will ask additional questions regarding your implementation and 
 
 ## Rubric
 * 40 - Participation
-* 30 - Ball working correctly
+* 25 - Ball working correctly
   * 5 - Ball starts out on top of the paddle and is bounced upward.
     > You may also start the ball above the paddle and have it drop down (either implementation is acceptable.)
-  * 5 - Ball is deflected when it hits the paddle (Movement does not need to be perfect).
-  * 20 - Ball is deflected when it hits a brick (Movement does not need to be perfect).
-* 20 - Paddle Working correctly
+  * 10 - Ball is deflected when it hits a brick (Movement does not need to be perfect).
+  * 10 - Ball is deflected when it hits the paddle.
+  The ball should tend toward the left when hitting the left side of the paddle, and to the right when hitting the right.
+* 5 - Paddle Working correctly
   * 5 - Paddle does not leave the bounds of the screen.
-  * 15 - Paddle deflects the ball with an angle based on where the ball hits.
 * 30 - Brick working correctly
   * 15 - Bricks should have health that is decreased when a ball hits it.
   * 15 - Bricks should be destroyed when their health reaches 0.
@@ -210,74 +210,92 @@ Your instructor will ask additional questions regarding your implementation and 
 Now that we have created classes for each of the Breakout objects, it is time to get the game working.
 
 ## Game States
-One of the most important aspect to creating a real-time project is to give it various __states__.
-These states make up the core of a program and make it a __state machine__.
-Don't worry about the terminology, all a state machine does is model behaviors for a given state and map out the transition to other states.
+One of the most important aspects to creating a real-time project is to design it with various __[states](https://en.wikipedia.org/wiki/State_(computer_science))__ in mind.
+For our game, all a state means is that we have a past, a present, and a future that we need to be aware of.
+
+States all have a definition (what they do), and a transition (how they change over time).
+These series of states make up a __state diagram__.
+For any large project, your should define your state diagram by hand before implementing it in code (e.g. creating a whiteboard sketch, Microsoft Visio diagram, etc).
+
+For our project, the model will be provided to you, your job is to translate it into code.
 
 Let's create a simple model using Breakout.
-Classically, we have 3 primary states: a play state, a pause state, and a game over state.
-During the game state, the behavior of the program should allow it to take user input, process game changes, and display the changes back to the user.
-During the game over state, the game should sit idle and wait for a user to restart the game (classically, this would be an arcade machine waiting for a user to insert enough coins to play).
-During the pause state, the game should sit idle and wait for a user to un-pause the game.
 
+#### State Definitions:
+In Breakout, we have 3 primary states: a play state, a pause state, and a game over state.
+* During the game state, the behavior of the program should allow it to take user input, process game changes, and display the changes back to the user.
+* During the game over state, the game should sit idle and wait for a user to restart the game (classically, this would be an arcade machine waiting for a user to insert enough coins to play).
+  In our case, this is just the game waiting for the user to press the space bar.
+* During the pause state, the game should sit idle and wait for a user to un-pause the game.
+
+#### State Transitions
 Now that we have defined our states, we need to define our state transitions.
-We should have our game start in the game over state, since it is how the game will have ended previously.
-The Game over state should be what the game loads into upon initialization.
-The game over state is very simple to model: it transitions to the play state when and only when the user gives the input.
-If the game is terminated, the state will not change.
-The play state is a little bit more complex, since it involves multiple branching paths.
-The play state will transition into the pause state when the user pauses the game, and the play state will transition to the game over state when the user runs out of live or the user terminates the game manually.
-Finally, the pause state is very similar to the game over state since it transitions to the play state when a user un-pauses the game.
+* We should have our game start in the game over state, since it is how the game will have ended previously.
+  The Game over state should be what the game loads into upon initialization.
+* The game over state is very simple to model: it transitions to the play state when and only when the user gives the input.
+  * If the game is terminated, the state will not change.
+* The play state is a little bit more complex, since it involves multiple branching paths.
+  * The play state will transition into the pause state when the user pauses the game, and
+  * the play state will transition to the game over state when the user runs out of lives or the user terminates the game manually.
+* Finally, the pause state is very similar to the game over state since it transitions to the play state when a user un-pauses the game.
 
-Before you start writing code, you should first write this out as a state diagram.
-Because your game may be different than the given game, your diagram may differ than what was described above.
+![State Diagram](/docs/img/breakout_states.png)
+> Because your final game may be different than the given game, your diagram may eventually differ than what is described above.
 
 ## Implementing States
 The obvious follow up questions is __"How do I write this in code?"__
 There are many ways to implement state transitions.
 In a larger project, you would likely use objects to contain various behaviors and change the object pointers to transition states.
-In this project, it will be easier to use boolean states to control the transitions.
+In this project, it will be easier to use integer or boolean states to control the transitions.
 Below is a __pseudocode__ example.
 
 ```
 # NOTE: Escape is used to quit the game, space is used to start the game,
-# and return is used to pause
+# and return is used to pause.
+# Your code will vary!
 
-gameover = True
-paused = False
-exitgame = False
+GAME_OVER = 0
+PLAY      = 1
+PAUSED    = 2
+
+state     = GAME_OVER
+exitgame  = False
 
 while not exitgame:
+    # Exit the game
     if user_input() == ESC:
         exitgame = True
         continue
 
     # Game Over State
-    if gameover:
+    if state == GAME_OVER:
         show_text("Game Over")
         show_subtext("Press space to play.")
         if user_input() == SPACE:
-            gameover = False
+            state = PLAY
             continue
 
     # Paused State
-    elif paused:
+    elif state == PAUSED:
         show_text("Paused")
         if user_input() == RETURN:
-            paused = False
+            state = PLAY
     
     # Play State
     else:
         run_game()
         
         if lives <= 0:
-            gameover = True
+            state = GAME_OVER
             continue
         
         if user_input() == RETURN:
-            paused = True
+            state = PAUSED
             continue
 ```
+> If you are unfamiliar with a continue statement, it is a control statement (similar to a break or return).
+  A continue, however, does not break out of a loop, but instead goes to the top of a loop.
+  For example, the continues in the pseudocode would all immediately jump up to the `while not exitgame` loop.
 
 ## Debugging Movement
 In this lab you will start debugging the motion of the ball, and the collisions on bricks.
@@ -299,16 +317,78 @@ Every time the ball goes off screen, the lives of the player should decrease by 
 When a user runs out of lives, the game should end.
 When the user starts up the game again, the level should be reset to 1, the score should be set to 0, and the number of lives should be reset to the starting number.
 
+## Writing Text to the Screen
+In order to display statistics to the user, you will need to write to the screen.
+The following code snippets may help.
 
+__given.py__
+```
+import pygame
+
+import random
+
+#############################
+# HELPERS FOR TEXT RENDERING
+#############################
+
+# Initialize the font library.
+pygame.font.init()
+
+class Fonts:
+    TEXT_FONT     = pygame.font.SysFont('Impact', 30)
+    TITLE_FONT    = pygame.font.SysFont('Impact', 100)
+    SUBTITLE_FONT = pygame.font.SysFont('Impact', 50)
+
+class Colors:
+    WHITE      = (255, 255, 255)
+    BLACK      = (  0,   0,   0)
+    RED        = (255,   0,   0)
+    GREEN      = (  0, 255,   0)
+    BLUE       = (  0,   0, 255)
+    CYAN       = (  0, 255, 255)
+    MAGENTA    = (255,   0, 255)
+    YELLOW     = (255, 255,   0)
+    LIGHT_GREY = (192, 192, 192)
+    GREY       = (128, 128, 128)
+    DARK_GREY  = ( 64,  64,  64)
+
+def draw_text_to_screen(screen, text, x, y, color, font):
+    render_text = font.render(text, False, color)
+    screen.blit(render_text, (x, y))
+```
+
+__main.py__
+```
+from src.given import Fonts
+from src.given import Colors
+
+# Write "Paused" to the screen
+given.draw_text_to_screen(screen, 'Paused', <topleftx>, <toplefty>, Colors.WHITE, Fonts.TITLE_FONT)
+
+```
 ## Submission
 For this lab, you will present your results to your instructor in the Week 12 Scrum.
 Your instructor will ask additional questions regarding your implementation and other general knowledge.
 
 ## Rubric
 * 40 - Participation
-* 20 - Working States in the Game
-* 20 - Deflection of the ball is fluid and fun to play
-* 20 - Game keeps track of score, lives, and level.
+* 25 - Working States in the Game
+  * 15 - Implemented a Game Over Screen
+    * 5 - Game Over screen is displayed when the game starts.
+    * 5 - Game Over screen transitions to the game upon user input.
+    * 5 - Game Over screen is displayed when the user runs out of lives
+  * 10 - Working pause menu
+    * 5 - Pause menu is triggered by user input. (Pause menu cannot be activated during the Game Over screen)
+    * 5 - Pause menu is terminated by user input.
+* 20 - Brick deflection is fluid and fun to play (i.e. not buggy)
+* 15 - Game keeps track of score, lives, and level.
+  * 3 - Score is increased when hitting bricks (or destroying them).
+    > I will leave this as a creative choice to you.
+  * 3 - Lives are decreased when the ball falls off the screen.
+  * 3 - Levels are increased when a user destroys the last block on the screen.
+  * 3 - New Bricks are generated when a user completes a level.
+    > __NOTE:__ An ideal game would also reset the ball at this point.
+  * 3 - Score, lives, and level are reset when it is game over.
 
 # Lab 12 - Binary File I/O
 One way that we will modernize this game is by allowing the user to save.
@@ -316,10 +396,122 @@ When the original Breakout was developed there was no way of saving a game, and 
 
 We will use binary file I/O to save and load the game.
 
-The game should be saved whenever a user exits the screen.
-If there is a save file present upon loading the game, the previous game state should be loaded instead of starting a new game.
-If the user runs out of lives during the game, any previous save files should be deleted.
-If the game is loaded into its game over state, no save file should be created.
+## Binary File I/O
+We will be saving the values as bytes for 2 reasons.
+1. Raw binary is smaller than saved text.
+2. Raw binary can be converted more easily into number values than string text.
+
+When writing binary we will be using the python `struct` module to pack and unpack bytes.
+Those bytes are then fed into a `bytearray` object which can be written to a file.
+
+### Some Theory
+The pack and unpack functions take 2 parameters, a `format string` and the `data objects` themselves.
+The format string defines how your data is represented (e.g. how many ints, floats, or characters).
+The format string also describes the `Endian` or arrangement of bytes.
+`Little Endian` is a format which defines a byte order as `Least-Significant Bit (LSB)` to `Most-Significant Bit (MSB)`
+`Big Endian` is the opposite, it defines the byte order in the standard `MSB` to `LSB` format.
+
+For example the format string `'>id'` says that there is a integer followed by a floating point number represented in big endian format.
+
+If we used the following binary string as an example, we would pull out. `5` and `5.0`.
+
+`00000000 00000000 00000000 00000101 1000000 10100000 00000000 00000000`
+
+This string contains 8 bytes, the first 4 represent a binary integer, and the second 4 bytes represent a binary floating point number.
+
+Changing the `Endian` of a byte string does not simply reverse the order of the bits, instead it, changes the bit order of each byte.
+
+If we were to rewrite the above string in `Little Endian` it would be written like so.
+
+`10100000 00000000 00000000 00000000 0000000 00000000 00000101 00000001`
+
+If you need more reference materials, please review the [slides](docs/Binary_File_IO.pdf) from class tonight.
+
+### Some Practice
+Now that we have seen how the formatting works, we can actually implement it.
+The beauty of the `struct` module is that it allows us to skip having to manually calculate or write code to manipulate bits.
+
+The following is some sample code for reading and writing in binary.
+
+__read_binary.py__
+```
+import struct
+import os.path
+
+if __name__ == '__main__':
+
+    # Instantiate list (i.e. Memory object)
+    int_list   = []
+    float_list = []
+
+    # Open the file to read in binary
+    with open(os.path.join("data", "test_file.dat"), "rb") as bin_in:
+        # Read the file as raw binary
+        ba = bytearray(bin_in.read())
+
+    # Designate format
+    format = '>id'
+    
+    # Designate the chuck size of the byte array.
+    # A chunk is a volume of information that is extracted in a given
+    # iteration through the bytearray.
+    # This is the reverse of extending the byte array.
+    chunk_size = struct.calcsize(format)
+
+    # Determine how many chunks are in the bytearray
+    num_chunks = len(ba) // chunk_size
+    
+    # For every chunk in the list
+    for i in range(num_chunks):
+        # Slice the bytearray into a given chunk of data
+        chunk = ba[i * chunk_size : (i+1) * chunk_size]
+        
+        # Unpack the chunk into a tangible value
+        int_value, float_value = struct.unpack(format, chunk)
+        
+        # Append the values to the list.
+        int_list.append(int_value)
+        float_list.append(float_value)
+
+```
+
+__write_binary.py__
+```
+import struct
+import os
+
+if __name__ == '__main__':
+
+    # Define data
+    int_list       = [1, 42, 13]
+    float_list     = [3.14, 42.0, 3.14/2]
+
+    # Designate format
+    format='>id'
+
+    # Instantiate an empty bytearray
+    ba = bytearray()
+    
+    # iterate through each list
+    for int_value, float_value in zip(int_list, float_list):
+        # Pack each set of bytes
+        chunk = struct.pack(format, int_value, float_value)
+        # Append the bytes to the output
+        ba.extend(chunk)
+
+# Open the file to write binary and write the bytes.
+file_path = os.path.join("data", "test_file.dat")
+with open(file_path,"wb") as bin_out:
+    bin_out.write(ba)
+```
+
+## Implementing Binary File I/O in Breakout
+When adding save files, you should adhere to the following.
+
+* The game should be saved whenever a user exits the screen.
+* If there is a save file present upon loading the game, the previous game state should be loaded instead of starting a new game.
+* If the user runs out of lives during the game, any previous save files should be deleted.
+* If the game is loaded into its game over state, no save file should be created.
 
 __Things you will need to keep track of.__
 * Game
@@ -336,7 +528,7 @@ __Things you will need to keep track of.__
     * __OR__
     * X-Velocity
     * Y-Velocity
-  * State __(Use this for Lab 13)__
+  * State __(Add this for Lab 13)__
     * Power-Up Status
       * Power-Up Type
       * Power-Up Time
@@ -350,10 +542,15 @@ __Things you will need to keep track of.__
     * y-Position
   * Status
     * Health
-    * Power-Up Brick __(Use this for lab 13)__
+    * Power-Up Brick __(Add this for lab 13)__
 
+### Binary File I/O Notes
+When importing and exporting states, you will notice that various objects have different types of information.
+This means that the binary format of a brick will differ from that of a ball.
+When reading and writing binary files, you will need to use multiple formats when packing and unpacking data.
 
-
+When importing data, your approach will be similar to that of lab 6.
+You will take in the data and instantiate objects based on the data (e.g. given a Brick's location and health, instantiate that brick and add it to the screen).
    
 ## Submission
 For this lab, you will present your results to your instructor in the Week 13 Scrum.
@@ -361,9 +558,10 @@ Your instructor will ask additional questions regarding your implementation and 
 
 ## Rubric
 * 40 - Participation
-* 30 - Saving and loading games works
-* 15 - No extraneous files are created
-* 15 - Stale save files are deleted once the game ends
+* 20 - You can create a game save state.
+* 20 - Loading data works.
+* 10 - No extraneous files are created.
+* 10 - Stale save files are deleted once it is game over.
 
 # Lab 13 - Integration
 This will be the final lab for this project.

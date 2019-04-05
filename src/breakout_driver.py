@@ -197,6 +197,13 @@ class Brick(Paddle):
     #     pass
 
 
+def brick_gen():
+    for new_x in range(0, 1025, 128):
+        for new_y in range(0, 393, 64):
+            block = Brick(new_x, new_y)
+            brick_list.append(block)
+
+
 '''
 ----------------------------MAIN METHOD---------------------
 '''
@@ -217,16 +224,14 @@ def main():
     global player1
     player1 = Paddle()
 
+    global score
+    score = 0
     # Initialize brick
     global brick_list
     brick_list = []
 
     # 1025,128 vs 393,64
-    for new_x in range(0, 1025, 128):
-        for new_y in range(0, 393, 64):
-            block = Brick(new_x, new_y)
-            brick_list.append(block)
-
+    brick_gen()
     # Initialize ball
     speed = 13
     ball = Ball((math.pi / 2, speed))
@@ -270,7 +275,6 @@ def main():
             y = (screen.get_height() / 2) - 30
 
             draw_text_to_screen(screen, "Game Over", x, y, Colors.WHITE, Fonts.TITLE_FONT)
-
 
             # Game Over Input
             for event in events:
@@ -319,8 +323,12 @@ def main():
                     state = GAME_OVER
                     screen.fill(Colors.BLACK)
 
-
         for brick in brick_list:
+            if brick.hit():
+                score += 10
+
+            draw_text_to_screen(screen, "Score:" + str(score), 0, 720, Colors.WHITE, Fonts.TEXT_FONT)
+
             if brick.is_dead():
                 brick_list.remove(brick)
                 bricksprite.remove(brick)
@@ -333,15 +341,12 @@ def main():
         ballsprite.draw(screen)
         playersprites.draw(screen)
 
-
-
         pygame.display.flip()
+
 
 '''---------------------------------------------------------------------------------------------------------------------
 
 '''
-
-
 
 if __name__ == '__main__':
     main()
