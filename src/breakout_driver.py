@@ -101,10 +101,12 @@ class Ball(pygame.sprite.Sprite):
                 for brick in brick_list:
                     if self.rect.colliderect(brick.rect) == 1 and not self.hit:
                         brick.hit()
+
                         if brick.rect.bottom > self.rect.centery > brick.rect.top:
                             angle = math.pi - angle
                         else:
                             angle = -angle
+                        break
 
             self.vector = (angle, z)
 
@@ -182,7 +184,7 @@ def brick_gen():
     b = []
     for new_x in range(0, 1025, 128):
         for new_y in range(0, 393, 64):
-            block = Brick(new_x, new_y, 3)
+            block = Brick(new_x, new_y + 40, 1)
             b.append(block)
     return b
 
@@ -317,6 +319,7 @@ def main():
                     lives = 3
                     state = GAME_OVER
                     screen.fill(Colors.BLACK)
+                    player1.still()
 
 
 
