@@ -101,7 +101,6 @@ class Ball(pygame.sprite.Sprite):
                 for brick in brick_list:
                     if self.rect.colliderect(brick.rect) == 1 and not self.hit:
                         brick.hit()
-
                         if brick.rect.bottom > self.rect.centery > brick.rect.top:
                             angle = math.pi - angle
                         else:
@@ -109,6 +108,8 @@ class Ball(pygame.sprite.Sprite):
                         break
 
             self.vector = (angle, z)
+
+
 
 
 """
@@ -305,9 +306,8 @@ def main():
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                         player1.still()
-
+            draw_text_to_screen(screen, "Score:" + str(score), 840, 0, Colors.WHITE, Fonts.TEXT_FONT)
             draw_text_to_screen(screen, "Lives: " + str(lives), 0, 0, Colors.WHITE, Fonts.TEXT_FONT)
-
             if len(brick_list) == 0:
                 brick_list = brick_gen()
                 bricksprite = pygame.sprite.RenderPlain(brick_list)
@@ -323,13 +323,15 @@ def main():
 
 
 
-            draw_text_to_screen(screen, "Score:" + str(score), 0, 720, Colors.WHITE, Fonts.TEXT_FONT)
+
 
             for brick in brick_list:
                 if brick.is_dead():
                     brick_list.remove(brick)
                     bricksprite.remove(brick)
                     screen.fill((0, 0, 0))
+                    score +=10
+
 
             screen.blit(background, ball.rect, ball.rect)
             screen.blit(background, player1.rect, player1.rect)
