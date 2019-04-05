@@ -682,6 +682,33 @@ If you take longer than 7 minutes, I will likely cut you off (don't make me do t
 I will provide a computer and a clicker for you to present with.
 I will load your presentations ahead of time, so everything will be ready to go and the order will mostly be random.
 
+## SlideShows 101
+Having to present on a topic is common for most disciplines, this is especially true in engineering fields.
+Being able to present effectively is a valuable skill that comes from practice.
+That being said, there are a few basic rules to follow when making a presentation.
+> You will not be graded based on this section, these are only tips to help you improve your presentation skills.
+
+__Content:__
+* YOU should be doing the talking, not your slides.
+In other words, __PowerPoint != Presentation__.
+Presentations should contain only the basic bullet points to keep you on track during your presentation.
+They should not contain all of your speech!
+These layouts are affectionately called __word walls__, and they make for bad presentations.
+* Presentations should convey visual ideas that are difficult to describe.
+* You should know your audience, tailor your slides to match the level of detail required for your audience.
+
+__Presenting:__
+* You should know your presentation before you present, looking at your slides instead of your presentation reflects poorly.
+* Going off on tangents will make it difficult for your audience to understand the key points.
+* Try not to stray from the bullet points on each slide, this coincides with going off on tangents.
+* Don't read verbatim from the slides, YOUR AUDIENCE CAN READ THEM!
+  Elaborate on your points instead!
+  Your audience will get an understanding of the subject matter from your points, your job is to fill in the blanks with your speech.
+* Try to avoid lingering on slides, you will lose your audience's attention with stale slides.
+  Exceptions to this are visual slides or highly detailed slides.
+  Ways to avoid this with detailed visuals is to break up your slide into sections, or copy the visual onto multiple continuous slides.
+
+
 ### Live Demo (Optional)
 I will allow up to 5 groups per class to show a live demo of their game.
 You __MUST__ make sure that your game works and that you have a machine to present it with (you need an __HDMI Port__).
@@ -726,19 +753,15 @@ __Presentation Length:__
 I will take the final score from above and take off points for going under 4 minutes or over 6 minutes.
 For example, a presentation that goes for 6:30 minutes or 3:30 minutes would lose 5 points, while a project that goes for 4:00 minutes exactly or 5:59 minutes would not lose any points.
 
-__Presentation Quality:__
-Keep in mind that YOU should be doing the talking, not your slides.
-In other words, __PowerPoint != Presentation__.
-Presentations should convey visual ideas that are difficult to describe.
-They should also contain only the basic bullet points to keep you on track during your presentation.
-They should not contain all of your speech!
-These layouts are affectionately called __word walls__, and they make for bad presentations.
+__Presenters:__
+Each partner should present for an equal amount of time.
+If one partner presents for a majority of the time, I will take off points from the entire group!
 
 # Final Submission
 As mentioned earlier, there will be a final submission for this project.
 This final submission will be worth __300 points__.
 This final submission needs to be submitted on an __individual__ basis (each partner submits).
-Please do not forget to submit something, it will really hurt you!
+Please do not forget to submit something!
 
 The final submission deadline is `Friday, 4/26/2019 at 11:59 pm`.
 That is the Friday at the end of exam week.
@@ -749,7 +772,7 @@ If you have made your milestones, your time will be better spent preparing for y
 
 ## Final Submission Rubric
 Your final project will be graded as follows.
-> __NOTE:__ This rubric does not contain participation credit!
+> __NOTE:__ This rubric does not contain participation credit, this submission will be graded on content.
 
 * 60 - Game Mechanics
     * 10 - Your ball should be controllable with the paddle
@@ -784,6 +807,7 @@ Your final project will be graded as follows.
       > This will be effort based and will be derived from the amount of content added.
     * 10 - Your game should have multiple levels where new bricks are generated each time the level changes.
     * 10 - Your game should progressively become harder.
+  
   50 - Game Quality
     * 20 - Your game should be aesthetically appealing.
       > You game should be smooth to play, not have any sprite or text artifacting, and have all sprites aligned properly.
