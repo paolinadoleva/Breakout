@@ -179,10 +179,11 @@ class Brick(Paddle):
 
 def brick_gen():
     b = []
-    for new_x in range(0, 1025, 128):
-        for new_y in range(0, 393, 64):
-            block = Brick(new_x, new_y + 40, 1)
-            b.append(block)
+    # for new_x in range(0, 1025, 128):
+    #     for new_y in range(0, 393, 64):
+    #         block = Brick(new_x, new_y + 40, 1)
+    #         b.append(block)
+    b.append(Brick(500,500))
     return b
 
 
@@ -220,7 +221,7 @@ def main():
     # 1025,128 vs 393,64
     # brick_gen()
     # Initialize ball
-    speed = 7
+    speed = 10
     ball = Ball((math.pi / 2, speed))
 
     # Initialize sprites
@@ -235,6 +236,7 @@ def main():
     # GAME STATES
     lives = 3
     level = 1
+    LEVEL_SCREEN = "Level Up"
     GAME_OVER = "Game Over"
     PLAY = "Play"
     PAUSED = "Paused"
@@ -271,6 +273,21 @@ def main():
                         brick_list = brick_gen()
                         bricksprite = pygame.sprite.RenderPlain(brick_list)
                         score = 0
+
+        elif state == LEVEL_SCREEN:
+
+            draw_text_to_screen(screen, "Level Up", 300, 400, Colors.WHITE, Fonts.TITLE_FONT)
+
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        state = PLAY
+                        screen.fill(Colors.BLACK)
+                        brick_list.clear()
+                        brick_list = brick_gen()
+                        bricksprite = pygame.sprite.RenderPlain(brick_list)
+                        level+=1
+
 
         elif state == GAME_OVER:
             # Game Over Out
@@ -325,10 +342,7 @@ def main():
             draw_text_to_screen(screen, "Lives: " + str(lives), 0, 0, Colors.WHITE, Fonts.TEXT_FONT)
             draw_text_to_screen(screen, "Level: " + str(level), 512, 0, Colors.WHITE, Fonts.TEXT_FONT)
 
-            if len(brick_list) == 0:
-                brick_list = brick_gen()
-                bricksprite = pygame.sprite.RenderPlain(brick_list)
-                level += 1
+
 
             for brick in brick_list:
                 if brick.is_dead():
@@ -336,6 +350,14 @@ def main():
                     bricksprite.remove(brick)
                     screen.fill((0, 0, 0))
                     score += 10
+
+            if len(brick_list) == 0:
+                #player1.still()
+                state = LEVEL_SCREEN
+
+                # brick_list = brick_gen()
+                # bricksprite = pygame.sprite.RenderPlain(brick_list)
+                # level += 1
 
             # display game over if no lives
             if ball.rect.bottom >= screen.get_height():
