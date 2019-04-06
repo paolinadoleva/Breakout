@@ -6,8 +6,6 @@ from pygame.locals import *
 pygame.font.init()
 
 
-
-
 def load_png(name):
     """ Load image and return image object"""
     fullname = os.path.join('../img', name)
@@ -65,7 +63,6 @@ class Ball(pygame.sprite.Sprite):
             newpos = calcnewpos(self.rect, self.vector)
             self.rect = newpos
 
-
             if not self.area.contains(newpos):
                 tl = not self.area.collidepoint(newpos.topleft)
                 tr = not self.area.collidepoint(newpos.topright)
@@ -108,8 +105,6 @@ class Ball(pygame.sprite.Sprite):
                         break
 
             self.vector = (angle, z)
-
-
 
 
 """
@@ -181,6 +176,7 @@ class Brick(Paddle):
     def is_dead(self):
         return self.hp <= 0
 
+
 def brick_gen():
     b = []
     for new_x in range(0, 1025, 128):
@@ -189,13 +185,13 @@ def brick_gen():
             b.append(block)
     return b
 
+
 '''
 ----------------------------MAIN METHOD---------------------
 '''
 
 
 def main():
-
     from src.given import Fonts
     from src.given import Colors
     from src.given import draw_text_to_screen
@@ -219,12 +215,12 @@ def main():
     global brick_list
     brick_list = []
 
-    brick_gen()
+    # brick_gen()
 
     # 1025,128 vs 393,64
     # brick_gen()
     # Initialize ball
-    speed = 13
+    speed = 7
     ball = Ball((math.pi / 2, speed))
 
     # Initialize sprites
@@ -238,15 +234,16 @@ def main():
 
     # GAME STATES
     lives = 3
+    level = 1
     GAME_OVER = "Game Over"
     PLAY = "Play"
     PAUSED = "Paused"
-    state = GAME_OVER
+    MAIN_SCREEN = "Welcome To Breakout"
+    state = MAIN_SCREEN
     exit_requested = False
 
     # Initialize clock
     clock = pygame.time.Clock()
-
 
     # Event loop
     while not exit_requested:
@@ -261,7 +258,21 @@ def main():
         if exit_requested:
             continue
 
-        if state == GAME_OVER:
+        if state == MAIN_SCREEN:
+
+            draw_text_to_screen(screen, "Welcome", 300, 400, Colors.WHITE, Fonts.TITLE_FONT)
+
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        state = PLAY
+                        screen.fill(Colors.BLACK)
+                        brick_list.clear()
+                        brick_list = brick_gen()
+                        bricksprite = pygame.sprite.RenderPlain(brick_list)
+                        score = 0
+
+        elif state == GAME_OVER:
             # Game Over Out
             x = (screen.get_width() / 2) - 100
             y = (screen.get_height() / 2) - 30
@@ -274,6 +285,10 @@ def main():
                     if event.key == pygame.K_SPACE:
                         state = PLAY
                         screen.fill(Colors.BLACK)
+                        brick_list.clear()
+                        brick_list = brick_gen()
+                        bricksprite = pygame.sprite.RenderPlain(brick_list)
+                        score = 0
 
         elif state == PAUSED:
             # Game Over Out
@@ -306,12 +321,23 @@ def main():
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                         player1.still()
-            draw_text_to_screen(screen, "Score:" + str(score), 840, 0, Colors.WHITE, Fonts.TEXT_FONT)
+            draw_text_to_screen(screen, "Score:" + str(score), 900, 0, Colors.WHITE, Fonts.TEXT_FONT)
             draw_text_to_screen(screen, "Lives: " + str(lives), 0, 0, Colors.WHITE, Fonts.TEXT_FONT)
+            draw_text_to_screen(screen, "Level: " + str(level), 512, 0, Colors.WHITE, Fonts.TEXT_FONT)
+
             if len(brick_list) == 0:
                 brick_list = brick_gen()
                 bricksprite = pygame.sprite.RenderPlain(brick_list)
+                level += 1
 
+            for brick in brick_list:
+                if brick.is_dead():
+                    brick_list.remove(brick)
+                    bricksprite.remove(brick)
+                    screen.fill((0, 0, 0))
+                    score += 10
+
+            # display game over if no lives
             if ball.rect.bottom >= screen.get_height():
                 lives -= 1
                 # Game Over
@@ -320,18 +346,6 @@ def main():
                     state = GAME_OVER
                     screen.fill(Colors.BLACK)
                     player1.still()
-
-
-
-
-
-            for brick in brick_list:
-                if brick.is_dead():
-                    brick_list.remove(brick)
-                    bricksprite.remove(brick)
-                    screen.fill((0, 0, 0))
-                    score +=10
-
 
             screen.blit(background, ball.rect, ball.rect)
             screen.blit(background, player1.rect, player1.rect)
