@@ -42,7 +42,7 @@ class Ball(pygame.sprite.Sprite):
 
     def __init__(self, vector):
         pygame.sprite.Sprite.__init__(self)
-        self.image = load_png('image.png')
+        self.image = load_png('ball.png')
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
@@ -286,7 +286,8 @@ def main():
                         brick_list.clear()
                         brick_list = brick_gen()
                         bricksprite = pygame.sprite.RenderPlain(brick_list)
-                        level+=1
+                        level += 1
+                        # player1.still()
 
 
         elif state == GAME_OVER:
@@ -352,8 +353,13 @@ def main():
                     score += 10
 
             if len(brick_list) == 0:
-                #player1.still()
+                ball.state = ball.still
+                player1.state = player1.reinit()
                 state = LEVEL_SCREEN
+
+
+
+
 
                 # brick_list = brick_gen()
                 # bricksprite = pygame.sprite.RenderPlain(brick_list)
