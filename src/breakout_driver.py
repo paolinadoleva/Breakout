@@ -1,6 +1,6 @@
 VERSION = "0.4"
 
-import math, os, pygame
+import math, os, pygame, random
 from pygame.locals import *
 
 pygame.font.init()
@@ -183,7 +183,8 @@ def brick_gen():
     #     for new_y in range(0, 393, 64):
     #         block = Brick(new_x, new_y + 40, 1)
     #         b.append(block)
-    b.append(Brick(500,500))
+    b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
+    # b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
     return b
 
 
@@ -287,6 +288,7 @@ def main():
                         brick_list = brick_gen()
                         bricksprite = pygame.sprite.RenderPlain(brick_list)
                         level += 1
+
                         # player1.still()
 
 
@@ -307,6 +309,7 @@ def main():
                         brick_list = brick_gen()
                         bricksprite = pygame.sprite.RenderPlain(brick_list)
                         score = 0
+                        level = 1
 
         elif state == PAUSED:
             # Game Over Out
