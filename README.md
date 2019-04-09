@@ -54,7 +54,7 @@ IF YOU AND YOUR PARTNER CHOOSE TO WORK AHEAD, PLEASE WORK TOGETHER, ANY CODE WHI
 * 100 points | Week 12 Milestones (graded on Week 13)
 * 100 points | Week 13 Milestones (graded on Week 14, as part of the presentation)
 * 100 points | Week 14 Presentation
-* 300 points | Final Project Submission (due `4/26/2019 at 11:59 pm`)
+* 300 points | Final Project Submission
 
 All weeks will count the same as a normal lab (100 points).
 The final presentation will also count as a normal lab grade.
@@ -561,6 +561,7 @@ Your instructor will ask additional questions regarding your implementation and 
 * 20 - You can create a game save state.
 * 20 - Loading data works.
 * 10 - No extraneous files are created.
+  > No files are created when it is game over.
 * 10 - Stale save files are deleted once it is game over.
 
 # Lab 13 - Integration
@@ -618,8 +619,8 @@ If you have any addiitonal content other than the game, you will submit this via
 ## Rubric
 * 40 - Participation
 * 30 - You game has at lease 1 unique feature (or several smaller features)
-* 20 - Your game has been polished up (i.e. you have decent looking sprites and other assets)
-* 10 - Your game's code was polished before submission.
+* 20 - Your game has been polished up (i.e. you have decent looking sprites and other assets, ball movement is solid).
+* 10 - Your game's code is polished.
 
 > __NOTE:__ This last lab is meant as an opportunity to have fun and enjoy the fruits of your labor in the last weeks.
 A lot of the grade is going to be based on effort.
@@ -763,12 +764,11 @@ This final submission will be worth __300 points__.
 This final submission needs to be submitted on an __individual__ basis (each partner submits).
 Please do not forget to submit something!
 
-The final submission deadline is `Friday, 4/26/2019 at 11:59 pm`.
-That is the Friday at the end of exam week.
-> __PLEASE NOTE:__ You may submit ahead of the deadline.
-In fact I encourage you to do so if you are able.
-This submission is an opportunity for people who have missed some milestones to make up some points.
-If you have made your milestones, your time will be better spent preparing for your other exams.
+The final submission deadline is due on the start of Week 14 (Presentations).
+
+> __NOTE:__ I will not grade your programs on the day of the presentations.
+Instead there will be a grace period extending until `Friday, 4/26/2019 at 11:59 pm`.
+If you need to continue working on your program, you may take up until this time.
 
 ## Final Submission Rubric
 Your final project will be graded as follows.
