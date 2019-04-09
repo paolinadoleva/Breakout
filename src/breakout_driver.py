@@ -203,26 +203,65 @@ def brick_gen():
     b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
     return b
 
+def read_file(file):
+    # Instantiate list (i.e. Memory object)
+    int_list = []
+    float_list = []
 
-class Gamestate():
-
-    def save_state(self):
-        self.save_file = os.path.join("saves", "save.file")
-
-        byte_array = bytearray()
-        format = ">id"
-        for i in range(len(self.save_file)):
-            byte_array.extend(struct.pack(format, self.save_file))
-
-        data_size = len(byte_array)
-        with open(self.save_file, "wb") as file:
-            file.write(byte_array)
-
-    # use this method to write the save state
+    # Open the file to read in binary
+    with open(os.path.join("data", file), "rb") as bin_in:
+        # Read the file as raw binary
+        ba = bytearray(bin_in.read())
 
 
-    def load_save_state(self):
-        
+    format = ">iidiiiii"
+    chunk_size = struct.calcsize(format)
+    chunk = ba[0 : chunk_size]
+    ballx, bally, balltheta, paddlex, score, lives, level, numbricks = struct.unpack(format, chunk)
+
+    ball = Ball(ballx, bally, balltheta)
+
+    paddle = Paddle(paddlex)
+
+    # X, Y, Health
+    brick_format = ">iii"
+
+    brick_chunk_size = struct.calcsize(brick_format)
+
+    bricks = []
+
+    for i in range(numbricks - 1):
+        start = chunk_size + (i * brick_chunk_size)
+        end   = start + brick_chunk_size
+        chunk = ba[start : end]
+        x, y, health = struct.unpack(brick_format, chunk)
+        brick = Brick(x, y, health)
+        bricks.append(brick)
+
+    return ball, paddle, bricks, score, lives, level
+
+def write_file(file, ball, paddle, bricks, score, lives, level):
+
+    # Designate format
+    format = ">iidiiiii"
+    chunk = struct.pack(format,ball.x, ball.y, ball.theta, paddle.x, score, lives, level, len(bricks))
+
+    # Instantiate an empty bytearray
+    ba = bytearray()
+    ba.extend(chunk)
+
+    brick_format = ">iii"
+    # iterate through each list
+    for brick in bricks:
+        # Pack each set of bytes
+        chunk = struct.pack(brick_format, brick.x, brick.y, brick.health)
+        # Append the bytes to the output
+        ba.extend(chunk)
+
+    # Open the file to write binary and write the bytes.
+    file_path = os.path.join("data", file)
+    with open(file_path, "wb") as bin_out:
+        bin_out.write(ba)
 
 
 '''
@@ -239,6 +278,12 @@ def main():
     screen = pygame.display.set_mode((1024, 720))
     pygame.display.set_caption('(bour, doleva)\'s Pong: v' + str(VERSION))
 
+    try:
+        ball, paddle, bricks, score, lives, level = bin_io.read_file("myfile.dat")
+    except FileNotFoundError:
+        ball = Ball()
+        paddle = Paddle()
+
     # Fill background
     background = pygame.Surface(screen.get_size())
     background = background.convert()
@@ -253,7 +298,9 @@ def main():
     # Initialize brick
     global brick_list
     brick_list = []
-
+    #
+    # global file
+    # file = Gamestate()
     # brick_gen()
 
     # 1025,128 vs 393,64
@@ -274,6 +321,7 @@ def main():
     # GAME STATES
     lives = 3
     level = 1
+    SAVE = "Save"
     LEVEL_SCREEN = "Level Up"
     GAME_OVER = "Game Over"
     PLAY = "Play"
@@ -300,6 +348,12 @@ def main():
         if exit_requested:
             continue
 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                if state == PLAY:
+                    bin_io.save_file("myfile.dat", ball, paddle, brick_list, score, lives, level)
+                return
+
         if state == MAIN_SCREEN:
 
             draw_text_to_screen(screen, "Welcome", 300, 400, Colors.WHITE, Fonts.TITLE_FONT)
@@ -307,14 +361,14 @@ def main():
             for event in events:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
-                        # if holds a save file
-                        save_file_load()
+
                         state = PLAY
                         screen.fill(Colors.BLACK)
                         brick_list.clear()
                         brick_list = brick_gen()
                         bricksprite = pygame.sprite.RenderPlain(brick_list)
                         score = 0
+                        state = SAVE
 
         elif state == LEVEL_SCREEN:
 
@@ -407,7 +461,14 @@ def main():
             if ball.rect.bottom >= screen.get_height():
                 lives -= 1
                 # Game Over
+
                 if lives == 0:
+                    if lives <= 0:
+                        try:
+                            os.remove('data/myfile.dat')
+                        except FileNotFoundError:
+                            pass
+                        continue
                     lives = 3
                     state = GAME_OVER
                     screen.fill(Colors.BLACK)
