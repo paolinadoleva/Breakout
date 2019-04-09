@@ -1,6 +1,6 @@
 VERSION = "0.4"
 
-import math, os, pygame, random
+import math, os, pygame, random, struct
 from pygame.locals import *
 
 pygame.font.init()
@@ -24,6 +24,22 @@ def calcnewpos(rect, vector):
     (angle, z) = vector
     (dx, dy) = (z * math.cos(angle), z * math.sin(angle))
     return rect.move(dx, dy)
+
+
+"""
+----------------------------------screen backround----------------------------------------
+"""
+
+
+class Backround(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = load_png('back_ground_spec.jpg')
+        self.rect = self.image.get_rect()
+        screen = pygame.display.self.image()
+        self.area = screen.get_rect()
+        self.rect.move_ip(self.area.centerx, self.area.centery)
 
 
 """
@@ -184,8 +200,29 @@ def brick_gen():
     #         block = Brick(new_x, new_y + 40, 1)
     #         b.append(block)
     b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
-    # b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
+    b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
     return b
+
+
+class Gamestate():
+
+    def save_state(self):
+        self.save_file = os.path.join("saves", "save.file")
+
+        byte_array = bytearray()
+        format = ">id"
+        for i in range(len(self.save_file)):
+            byte_array.extend(struct.pack(format, self.save_file))
+
+        data_size = len(byte_array)
+        with open(self.save_file, "wb") as file:
+            file.write(byte_array)
+
+    # use this method to write the save state
+
+
+    def load_save_state(self):
+        
 
 
 '''
@@ -258,6 +295,8 @@ def main():
         for event in events:
             if event.type == pygame.QUIT:
                 exit_requested = True
+
+                # implement a save function here save when exited
         if exit_requested:
             continue
 
@@ -268,6 +307,8 @@ def main():
             for event in events:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
+                        # if holds a save file
+                        save_file_load()
                         state = PLAY
                         screen.fill(Colors.BLACK)
                         brick_list.clear()
@@ -346,8 +387,6 @@ def main():
             draw_text_to_screen(screen, "Lives: " + str(lives), 0, 0, Colors.WHITE, Fonts.TEXT_FONT)
             draw_text_to_screen(screen, "Level: " + str(level), 512, 0, Colors.WHITE, Fonts.TEXT_FONT)
 
-
-
             for brick in brick_list:
                 if brick.is_dead():
                     brick_list.remove(brick)
@@ -359,10 +398,6 @@ def main():
                 ball.state = ball.still
                 player1.state = player1.reinit()
                 state = LEVEL_SCREEN
-
-
-
-
 
                 # brick_list = brick_gen()
                 # bricksprite = pygame.sprite.RenderPlain(brick_list)
