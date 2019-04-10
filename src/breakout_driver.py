@@ -1,6 +1,7 @@
 VERSION = "0.4"
 
-import math, os, pygame, random, struct
+import math, os, pygame, random
+from src import bin_io
 from pygame.locals import *
 
 pygame.font.init()
@@ -203,66 +204,6 @@ def brick_gen():
     b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
     return b
 
-def read_file(file):
-    # Instantiate list (i.e. Memory object)
-    int_list = []
-    float_list = []
-
-    # Open the file to read in binary
-    with open(os.path.join("data", file), "rb") as bin_in:
-        # Read the file as raw binary
-        ba = bytearray(bin_in.read())
-
-
-    format = ">iidiiiii"
-    chunk_size = struct.calcsize(format)
-    chunk = ba[0 : chunk_size]
-    ballx, bally, balltheta, paddlex, score, lives, level, numbricks = struct.unpack(format, chunk)
-
-    ball = Ball(ballx, bally, balltheta)
-
-    paddle = Paddle(paddlex)
-
-    # X, Y, Health
-    brick_format = ">iii"
-
-    brick_chunk_size = struct.calcsize(brick_format)
-
-    bricks = []
-
-    for i in range(numbricks - 1):
-        start = chunk_size + (i * brick_chunk_size)
-        end   = start + brick_chunk_size
-        chunk = ba[start : end]
-        x, y, health = struct.unpack(brick_format, chunk)
-        brick = Brick(x, y, health)
-        bricks.append(brick)
-
-    return ball, paddle, bricks, score, lives, level
-
-def write_file(file, ball, paddle, bricks, score, lives, level):
-
-    # Designate format
-    format = ">iidiiiii"
-    chunk = struct.pack(format,ball.x, ball.y, ball.theta, paddle.x, score, lives, level, len(bricks))
-
-    # Instantiate an empty bytearray
-    ba = bytearray()
-    ba.extend(chunk)
-
-    brick_format = ">iii"
-    # iterate through each list
-    for brick in bricks:
-        # Pack each set of bytes
-        chunk = struct.pack(brick_format, brick.x, brick.y, brick.health)
-        # Append the bytes to the output
-        ba.extend(chunk)
-
-    # Open the file to write binary and write the bytes.
-    file_path = os.path.join("data", file)
-    with open(file_path, "wb") as bin_out:
-        bin_out.write(ba)
-
 
 '''
 ----------------------------MAIN METHOD---------------------
@@ -278,36 +219,21 @@ def main():
     screen = pygame.display.set_mode((1024, 720))
     pygame.display.set_caption('(bour, doleva)\'s Pong: v' + str(VERSION))
 
+    global ball, player1, brick_list, score
+
     try:
         ball, paddle, bricks, score, lives, level = bin_io.read_file("myfile.dat")
     except FileNotFoundError:
-        ball = Ball()
-        paddle = Paddle()
+        ball = Ball((math.pi / 2, 10))
+        player1 = Paddle()
 
     # Fill background
     background = pygame.Surface(screen.get_size())
     background = background.convert()
     background.fill((0, 0, 0))
 
-    # Initialize players
-    global player1
-    player1 = Paddle()
-
-    global score
     score = 0
-    # Initialize brick
-    global brick_list
     brick_list = []
-    #
-    # global file
-    # file = Gamestate()
-    # brick_gen()
-
-    # 1025,128 vs 393,64
-    # brick_gen()
-    # Initialize ball
-    speed = 10
-    ball = Ball((math.pi / 2, speed))
 
     # Initialize sprites
     playersprites = pygame.sprite.RenderPlain(player1)
@@ -340,19 +266,19 @@ def main():
 
         events = pygame.event.get()
 
+        # for event in events:
+        #     if event.type == pygame.QUIT:
+        #         exit_requested = True
+        # if exit_requested:
+        #     continue
+
         for event in events:
             if event.type == pygame.QUIT:
+                if state == PLAY:
+                    bin_io.save_file("myfile.dat", ball, player1, brick_list, score, lives, level)
                 exit_requested = True
-
-                # implement a save function here save when exited
         if exit_requested:
             continue
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                if state == PLAY:
-                    bin_io.save_file("myfile.dat", ball, paddle, brick_list, score, lives, level)
-                return
 
         if state == MAIN_SCREEN:
 
@@ -361,7 +287,6 @@ def main():
             for event in events:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
-
                         state = PLAY
                         screen.fill(Colors.BLACK)
                         brick_list.clear()
