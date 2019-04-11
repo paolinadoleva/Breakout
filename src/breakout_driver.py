@@ -149,7 +149,9 @@ class Paddle(pygame.sprite.Sprite):
         self.speed = 10
         self.state = "still"
         self.reinit()
-        self.x = self.movepos
+        self.x = 0
+        self.Y = 1
+
 
 
 
@@ -207,6 +209,9 @@ def brick_gen():
     #         b.append(block)
     b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
     b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
+    for i in b:
+        x = [0]
+        y = [1]
     return b
 
 
@@ -274,8 +279,8 @@ def main():
         # try:
         #     ball, paddle, bricks, score, lives, level = bin_io.read_file("..//data//file")
         # except FileNotFoundError:
-        #     ball = Ball(bally)
-        #     paddle = Paddle()
+        #     ball = Ball()
+        #    paddle = Paddle()
 
         # for event in events:
         #     if event.type == pygame.QUIT:
