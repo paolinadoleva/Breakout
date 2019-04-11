@@ -54,7 +54,7 @@ IF YOU AND YOUR PARTNER CHOOSE TO WORK AHEAD, PLEASE WORK TOGETHER, ANY CODE WHI
 * 100 points | Week 12 Milestones (graded on Week 13)
 * 100 points | Week 13 Milestones (graded on Week 14, as part of the presentation)
 * 100 points | Week 14 Presentation
-* 300 points | Final Project Submission (due `4/26/2019 at 11:59 pm`)
+* 300 points | Final Project Submission
 
 All weeks will count the same as a normal lab (100 points).
 The final presentation will also count as a normal lab grade.
@@ -561,11 +561,28 @@ Your instructor will ask additional questions regarding your implementation and 
 * 20 - You can create a game save state.
 * 20 - Loading data works.
 * 10 - No extraneous files are created.
+  > No files are created when it is game over.
 * 10 - Stale save files are deleted once it is game over.
 
 # Lab 13 - Integration
 This will be the final lab for this project.
 In this lab you will add to your game to make it stand out and be truly unique.
+
+This lab is titled __integration__ because typically the final step in a software project the __integration__ and __test__ phase.
+During this step, you will iron out all of the bugs in your project.
+Keep in mind that a bug may be any faulty code that needs to be addressed, but it may also refer to the __User Experience (UX)__ of your game.
+
+Upon the completion of the lab, your game should:
+* Not crash! (This is important!)
+  * If you have strange issues, you may want to consider implementing a __try/except__ block.
+* Transition from state to state.
+* Not have __artifacting__ (stale pixels that need to be removed from the screen).
+* Have all text displaying correctly.
+* Be intuitive:
+  * You should not have to explain the nuances of your game to me, it should be very obvious where everything is.
+  * You should tell me all of the inputs (Movement/pausing/starting the game) (I recommend putting these on the "Game Over" screen).
+* Not have __spaghetti code__ (that is, code which is overcomplicated or difficult to read or modify).
+* Be unique from everyone else's.
 
 There are no general guidelines to this lab other than whatever you add should be significant.
 > __NOTE:__ As a rule of thumb, you should put in at least the same level of effort into this lab as the other labs in the project.
@@ -573,6 +590,9 @@ There are no general guidelines to this lab other than whatever you add should b
 For those who may have fallen behind in previous weeks, please use this lab as an opportunity to catch back up and created something you can be proud of.
 
 ## Ideas
+Here are some implementation ideas that you may want to explore.
+Pick a couple of these if you don't have any ideas.
+
 * Use File I/O or Binary File I/O to save high scores and the names of the best players. __(Medium)__
 * Add a power up to the game:
   * Add a damage powerup that destroys all bricks and is not deflected by bricks. __(Medium)__
@@ -599,54 +619,208 @@ If you have any addiitonal content other than the game, you will submit this via
 ## Rubric
 * 40 - Participation
 * 30 - You game has at lease 1 unique feature (or several smaller features)
-* 20 - Your game has been polished up (i.e. you have decent looking sprites and other assets)
-* 10 - Your game's code was polished before submission.
+* 20 - Your game has been polished up (i.e. you have decent looking sprites and other assets, ball movement is solid).
+* 10 - Your game's code is polished.
 
 > __NOTE:__ This last lab is meant as an opportunity to have fun and enjoy the fruits of your labor in the last weeks.
 A lot of the grade is going to be based on effort.
 
-# Lab 14 - Presentations
+# Presentations
 
-The first 30 minutes of this lab will involve taking the "Super" quiz. Which will count for 2 quiz grades (4% of your overall grade).
+The first 20 minutes of the final lab will involve taking the "Super" quiz.
+The "Super" quiz will count for 2 quiz grades (4% of your overall grade).
 
-The remaining 75 minutes will be spent on group presentations.
+The remaining 85 minutes will be spent on group presentations.
 Each group will present their project.
 The purpose of this lab is to gain additional practice presenting and evaluating the presentations of others.
 
-I want to see the following information from each group:
-* Demo of the game (include multiple levels and power-ups if applicable).
-* What challenges did you face during development (from each partner)?
-  How did your team solve these?
-  > __NOTE:__ These can be both in terms of code and disagreements with the team
-* What did you enjoy about the project (from each partner)?
-* What did you learn from the project (from each partner)?
+I want you all to treat this as an "Elevator Pitch" to your future boss.
+The purpose is to show what you've done, how it is unique, and what you've gained from it.
+
+Keep in mind that this is will be a short presentation.
+Realistically, it should not take more than 1-1.5 hours to put your slides together.
+If you find yourself going over, please trim down the content before submission.
+There is a "Goldilocks" amount of content that you should keep in mind.
+
+This is __NOT__ a public speaking course, and I will __NOT__ grade you on your demeanor during the presentation.
+Being nervous, using filler words (e.g. like, um, etc.) will not count against you.
+I am only grading based on the quality and amount of content that you present.
+
+## Presentation Layout
+
+Please use the following format to structure your slides:
+
+* Introduction slide (1 slide)
+  > Who is in your team.
+  
+* Brief overview of your game (1-2 slide[s])
+  > Describe the rules of your game.
+  > Describe what unique things you did to your game.
+  > Show some screenshots or gameplay video from your game.
+  
+* A brief diagram describing how your game works (1-2 slide[s])
+  > Draw the states of your game.
+  > Draw the state transitions.
+  > Draw a diagram of your game (how classes interact).
+  
+* Challenges (1 slide)
+  > What roadblocks did you hit along the way?
+  > What design decisions did you have to make?
+  
+* Accomplishments/Lessons Learned (1 slide)
+  > How did you overcome the aforementioned roadblocks?
+  > What did you learn from this project?
+
+I want you to work with __Google Slides__ for this project (see the Submission section for more information).
 
 You and your partner must present for no fewer than __4 minutes__ and no longer than __6 minutes__.
 If your presentation is too long or short I will take off 10 points per minute (__yes, I will be timing__).
-> You and your partner should practice presenting before the final lab (At least run through it once)!
+> You and your partner should practice presenting before the final lab (At least run through the presentation once)!
 
 If you take longer than 7 minutes, I will likely cut you off (don't make me do this)!
 
-> __NOTE:__ If you and your partner do not have a way of presenting, please let me know beforehand so that I can download and load your project for your presentation.
-I will use your most up-to-date GitLab version, make sure that all of your changes are pushed and that you give me the correct repository.
+> __NOTE:__ You must submit (share) the presentation to me by the due date.
+I will provide a computer and a clicker for you to present with.
+I will load your presentations ahead of time, so everything will be ready to go and the order will mostly be random.
+
+## SlideShows 101
+Having to present on a topic is common for most disciplines, this is especially true in engineering fields.
+Being able to present effectively is a valuable skill that comes from practice.
+That being said, there are a few basic rules to follow when making a presentation.
+> You will not be graded based on this section, these are only tips to help you improve your presentation skills.
+
+__Content:__
+* YOU should be doing the talking, not your slides.
+In other words, __PowerPoint != Presentation__.
+Presentations should contain only the basic bullet points to keep you on track during your presentation.
+They should not contain all of your speech!
+These layouts are affectionately called __word walls__, and they make for bad presentations.
+* Presentations should convey visual ideas that are difficult to describe.
+* You should know your audience, tailor your slides to match the level of detail required for your audience.
+
+__Presenting:__
+* You should know your presentation before you present, looking at your slides instead of your presentation reflects poorly.
+* Going off on tangents will make it difficult for your audience to understand the key points.
+* Try not to stray from the bullet points on each slide, this coincides with going off on tangents.
+* Don't read verbatim from the slides, YOUR AUDIENCE CAN READ THEM!
+  Elaborate on your points instead!
+  Your audience will get an understanding of the subject matter from your points, your job is to fill in the blanks with your speech.
+* Try to avoid lingering on slides, you will lose your audience's attention with stale slides.
+  Exceptions to this are visual slides or highly detailed slides.
+  Ways to avoid this with detailed visuals is to break up your slide into sections, or copy the visual onto multiple continuous slides.
+
+
+### Live Demo (Optional)
+I will allow up to 5 groups per class to show a live demo of their game.
+You __MUST__ make sure that your game works and that you have a machine to present it with (you need an __HDMI Port__).
+If you choose to show a live demo, you will be given a couple of extra minutes to setup and show the demo.
+You can use this as an opportunity to practice demonstrating live software.
+
+I will send out an email shortly to see who is interested in presenting a live demo.
+The slots will be given on a __First-Come, First-Serve__ basis.
+If you have a slot and are no longer able to present, please notify me immediately so that I can reallocate the slot.
+Please keep the live demo as short and concise as possible, please do not go over 2 minutes with it.
+
+If you present a live demo, your slides must still contain screenshots/live video gameplay.
+You may use your live demo to help supplement your gameplay slides (i.e. You can go through your slides more quickly if you have a live demo).
+> __NOTE:__ Presenting a live demo will neither hurt your grade nor help your grade.
+It is only being offered to give you an opportunity to practice presenting live software.
 
 ## Submission
 In order to receive credit for this lab, you must be present in lab to present your Breakout game.
 You must also be present for the duration of the lab to watch other groups present, only excused absences will be allowed.
-I will evaluate your presentation in class.
-You should have some supplemental material for your presentation once you have finished demonstrating your game (e.g. slides).
-> Include screenshots from your game, just in case you have issues with your demo.
+I will evaluate your presentation during class.
+
+Given the number of groups, we will be constrained for time.
+Therefore everyone must have a presentation ready to go.
+In order to facilitate this, I want you to use Google Slides and __share__ your slides with me by the due date.
+Please use your CNU Drive account (associated with your CNU email).
+Please share to the appropriate email address:
+* __mathew.bartgis.11@cnu.edu__
+* __jonathan.hill.15@cnu.edu__
 
 ## Rubric
-* 25 - Live demo of your game.
-* 40 - Discussion about your project (e.g. Challenges, enjoyment, knowledge gained).
-* 35 - Quality of the presentation.
-  * Did you keep on topic?
-  * Did you have supplemental content (e.g. slides)?
+* 50 - Quality of your content.
+  * 20 - Describe your game states definitions and state transitions.
+  * 15 - Describe the architecture of your game.
+  * 15 - Describe the technical challenges you faced.
+* 50 - Quality of your slides.
+  * 10 - None of your slides are __word walls__.
+  * 15 - You have visuals of your game.
+  * 15 - You have visuals/diagrams of your game's structure.
+  * 10 - You have concise bullet points.
 
-__Presentation Length?__
+__Presentation Length:__
 I will take the final score from above and take off points for going under 4 minutes or over 6 minutes.
 For example, a presentation that goes for 6:30 minutes or 3:30 minutes would lose 5 points, while a project that goes for 4:00 minutes exactly or 5:59 minutes would not lose any points.
+
+__Presenters:__
+Each partner should present for an equal amount of time.
+If one partner presents for a majority of the time, I will take off points from the entire group!
+
+# Final Submission
+As mentioned earlier, there will be a final submission for this project.
+This final submission will be worth __300 points__.
+This final submission needs to be submitted on an __individual__ basis (each partner submits).
+Please do not forget to submit something!
+
+The final submission deadline is due on the start of Week 14 (Presentations).
+
+> __NOTE:__ I will not grade your programs on the day of the presentations.
+Instead there will be a grace period extending until `Friday, 4/26/2019 at 11:59 pm`.
+If you need to continue working on your program, you may take up until this time.
+
+## Final Submission Rubric
+Your final project will be graded as follows.
+> __NOTE:__ This rubric does not contain participation credit, this submission will be graded on content.
+
+* 60 - Game Mechanics
+    * 10 - Your ball should be controllable with the paddle
+      > You should not use the default `angle = -angle`.
+    * 10 - Your ball should deflect off of the bricks in a clean manner.
+      > Your ball should not phase through bricks on side hits or top/bottom hits.
+    * 10 - Your ball should start on top of the paddle or bounce down to the paddle when a level starts or a new life is used.
+      > An ideal solution would have the ball follow the paddle and get launched once the user hits a key.
+    * 10 - Blocks should have variable health
+    * 10 - Blocks should be identifiable by their health.
+    * 10 - Blocks should disappear once their health <= 0.
+* 50 - Game States
+    * 10 - Your game should start in the Game Over phase (unless there is currently a saved game).
+    * 10 - Your game should transition to the play phase on user input.
+    * 10 - Your game should transition to the Game Over phase once the user runs out of lives.
+    * 10 - Your game should transition to the Paused state on user input from the play state.
+    * 10 - Your game should transition to the Play state on user input from the paused state.
+* 40 - Game Stats
+    * 10 - Your game should visually keep track of score
+    * 10 - Your game should visually keep track of level count
+    * 10 - Your game should visually keep track of lives
+    * 10 - Your game should reset all stats when it is Game Over
+* 50 - Game Saves
+    * 15 - Your game should save to a binary file.
+    * 15 - Your game should load from a binary file if one is available.
+      > This is the condition when the game should bypass the Game Over state (however, you may still have it so long as the previous game is loaded on the state transition instead of a new game).
+    * 10 - Your game should not create extraneous files
+      > If you are in the game over screen, you should not make a save.
+    * 10 - Your game should remove stale (old) save files once it is Game Over.
+  50 - Game Design
+    * 30 - Your game should have additional work put into it which makes it unique (Lab 13).
+      > This will be effort based and will be derived from the amount of content added.
+    * 10 - Your game should have multiple levels where new bricks are generated each time the level changes.
+    * 10 - Your game should progressively become harder.
+  
+  50 - Game Quality
+    * 20 - Your game should be aesthetically appealing.
+      > You game should be smooth to play, not have any sprite or text artifacting, and have all sprites aligned properly.
+        While not required, you may add new sprites, sound effects, or background music.
+        Adding new content can ONLY HELP YOU!
+    * 30 - Your code will be subject to a manual code inspection.
+      I will be evaluating your code as follows
+        * Frequent and concise comments added to your code.
+        * Python documentation added to classes and functions.
+        * Using proper variable, function, and class names.
+        * Creating modular code (i.e. Reusing code where possible)
+        * Effective use of classes (i.e. Using object instantiation where appropriate).
+
 
 # Additional Documentation
 
