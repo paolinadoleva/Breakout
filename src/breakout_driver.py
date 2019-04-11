@@ -66,7 +66,9 @@ class Ball(pygame.sprite.Sprite):
         self.vector = vector
         self.hit = 0
         self.state = Ball.still
-
+        self.x = 1
+        self.y = 1
+        self.theta = self.vector
         # NEW
         self.rect.move_ip(self.area.centerx, self.area.centery)
 
@@ -147,6 +149,9 @@ class Paddle(pygame.sprite.Sprite):
         self.speed = 10
         self.state = "still"
         self.reinit()
+        self.x = self.movepos
+
+
 
     def reinit(self):
         self.state = "still"
@@ -266,6 +271,12 @@ def main():
 
         events = pygame.event.get()
 
+        # try:
+        #     ball, paddle, bricks, score, lives, level = bin_io.read_file("..//data//file")
+        # except FileNotFoundError:
+        #     ball = Ball(bally)
+        #     paddle = Paddle()
+
         # for event in events:
         #     if event.type == pygame.QUIT:
         #         exit_requested = True
@@ -275,7 +286,7 @@ def main():
         for event in events:
             if event.type == pygame.QUIT:
                 if state == PLAY:
-                    bin_io.save_file("myfile.dat", ball, player1, brick_list, score, lives, level)
+                    bin_io.save_file("..//data//file", ball, player1, brick_list, score, lives, level)
                 exit_requested = True
         if exit_requested:
             continue
@@ -390,7 +401,7 @@ def main():
                 if lives == 0:
                     if lives <= 0:
                         try:
-                            os.remove('data/myfile.dat')
+                            os.remove('..//data//file')
                         except FileNotFoundError:
                             pass
                         continue
