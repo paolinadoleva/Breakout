@@ -57,7 +57,7 @@ class Ball(pygame.sprite.Sprite):
     still = 0
     play = 1
 
-    def __init__(self, vector):
+    def __init__(self, vector, paddle):
         pygame.sprite.Sprite.__init__(self)
         self.image = load_png('ball.png')
         self.rect = self.image.get_rect()
@@ -66,16 +66,20 @@ class Ball(pygame.sprite.Sprite):
         self.vector = vector
         self.hit = 0
         self.state = Ball.still
-        self.x = 1
-        self.y = 1
-        self.theta = self.vector
+        self.x = self.area.centerx
+        self.y = self.area.centery
+        self.theta = math.pi / 2
         # NEW
         self.rect.move_ip(self.area.centerx, self.area.centery)
+        self.player1 = paddle
+
+    def set_bricks(self, bricks):
+        self.brick_list = bricks
 
     def update(self):
         angle, z = self.vector
         if self.state == Ball.still:
-            self.rect.midbottom = player1.rect.midtop
+            self.rect.midbottom = self.player1.rect.midtop
             angle = math.pi / 2
             self.vector = (angle, z)
         else:
@@ -98,15 +102,15 @@ class Ball(pygame.sprite.Sprite):
 
             else:
                 # Deflate the rectangles so you can't catch a ball behind the bat
-                player1.rect.inflate(-3, -3)
+                self.player1.rect.inflate(-3, -3)
 
                 # Do ball and bat collide?
                 # Note I put in an odd rule that sets self.hit to 1 when they collide, and unsets it in the next
                 # iteration. this is to stop odd ball behaviour where it finds a collision *inside* the
                 # bat, the ball reverses, and is still inside the bat, so bounces around inside.
                 # This way, the ball can always escape and bounce away cleanly
-                if self.rect.colliderect(player1.rect) == 1 and not self.hit:
-                    x2 = player1.rect.centerx
+                if self.rect.colliderect(self.player1.rect) == 1 and not self.hit:
+                    x2 = self.player1.rect.centerx
                     x1 = self.rect.centerx
                     dx = x1 - x2
                     dx /= 80
@@ -114,7 +118,7 @@ class Ball(pygame.sprite.Sprite):
                     self.hit = not self.hit
                 elif self.hit:
                     self.hit = not self.hit
-                for brick in brick_list:
+                for brick in self.brick_list:
                     if self.rect.colliderect(brick.rect) == 1 and not self.hit:
                         brick.hit()
                         if brick.rect.bottom > self.rect.centery > brick.rect.top:
@@ -151,9 +155,6 @@ class Paddle(pygame.sprite.Sprite):
         self.reinit()
         self.x = 0
         self.Y = 1
-
-
-
 
     def reinit(self):
         self.state = "still"
@@ -200,19 +201,36 @@ class Brick(Paddle):
     def is_dead(self):
         return self.hp <= 0
 
+    def brick_gen(self):
+        b = []
+        self.x = 0
+        self.y = 0
+        # for new_x in range(0, 1025, 128):
+        #     for new_y in range(0, 393, 64):
+        #         block = Brick(new_x, new_y + 40, 1)
+        #         b.append(block)
+        b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
+        b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
+        for i in b:
+            self.x = [0]
+            self.y = [1]
+        return b
+
 
 def brick_gen():
-    b = []
+    brick_list = []
+    x = 0
+    y = 0
     # for new_x in range(0, 1025, 128):
     #     for new_y in range(0, 393, 64):
     #         block = Brick(new_x, new_y + 40, 1)
     #         b.append(block)
-    b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
-    b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
-    for i in b:
+    brick_list.append(Brick(random.randint(0, 500), random.randint(0, 500)))
+    brick_list.append(Brick(random.randint(0, 500), random.randint(0, 500)))
+    for i in brick_list:
         x = [0]
         y = [1]
-    return b
+    return brick_list
 
 
 '''
@@ -225,25 +243,32 @@ def main():
     from src.given import Colors
     from src.given import draw_text_to_screen
     # Initialize screen
+
     pygame.init()
     screen = pygame.display.set_mode((1024, 720))
     pygame.display.set_caption('(bour, doleva)\'s Pong: v' + str(VERSION))
 
-    global ball, player1, brick_list, score
+    global ball, score
 
     try:
-        ball, paddle, bricks, score, lives, level = bin_io.read_file("myfile.dat")
+        bl, player1, bricks, sc, lives, level = bin_io.read_file("../data/file")
+        score = sc
+        ball = bl
     except FileNotFoundError:
-        ball = Ball((math.pi / 2, 10))
+        ball = Ball((math.pi / 2, 10), Paddle())
         player1 = Paddle()
+        lives = 3
+        level = 1
+        score = 0
 
     # Fill background
     background = pygame.Surface(screen.get_size())
     background = background.convert()
     background.fill((0, 0, 0))
 
-    score = 0
     brick_list = []
+
+    ball.set_bricks(brick_list)
 
     # Initialize sprites
     playersprites = pygame.sprite.RenderPlain(player1)
@@ -255,8 +280,7 @@ def main():
     pygame.display.flip()
 
     # GAME STATES
-    lives = 3
-    level = 1
+
     SAVE = "Save"
     LEVEL_SCREEN = "Level Up"
     GAME_OVER = "Game Over"
@@ -275,12 +299,12 @@ def main():
         clock.tick(60)
 
         events = pygame.event.get()
-
+        # global ball, player1, brick, score
         # try:
         #     ball, paddle, bricks, score, lives, level = bin_io.read_file("..//data//file")
         # except FileNotFoundError:
-        #     ball = Ball()
-        #    paddle = Paddle()
+        #     ball = Ball((math.pi/2,10))
+        #     player1 = Paddle()
 
         # for event in events:
         #     if event.type == pygame.QUIT:
@@ -291,7 +315,7 @@ def main():
         for event in events:
             if event.type == pygame.QUIT:
                 if state == PLAY:
-                    bin_io.save_file("..//data//file", ball, player1, brick_list, score, lives, level)
+                    bin_io.save_file("../data/file", ball, player1, brick_list, score, lives, level)
                 exit_requested = True
         if exit_requested:
             continue
@@ -307,9 +331,9 @@ def main():
                         screen.fill(Colors.BLACK)
                         brick_list.clear()
                         brick_list = brick_gen()
+                        ball.set_bricks(brick_list)
                         bricksprite = pygame.sprite.RenderPlain(brick_list)
-                        score = 0
-                        state = SAVE
+
 
         elif state == LEVEL_SCREEN:
 
@@ -322,6 +346,7 @@ def main():
                         screen.fill(Colors.BLACK)
                         brick_list.clear()
                         brick_list = brick_gen()
+                        ball.set_bricks(brick_list)
                         bricksprite = pygame.sprite.RenderPlain(brick_list)
                         level += 1
 
@@ -343,9 +368,11 @@ def main():
                         screen.fill(Colors.BLACK)
                         brick_list.clear()
                         brick_list = brick_gen()
+                        ball.set_bricks(brick_list)
                         bricksprite = pygame.sprite.RenderPlain(brick_list)
                         score = 0
                         level = 1
+                        lives = 3
 
         elif state == PAUSED:
             # Game Over Out
@@ -399,17 +426,16 @@ def main():
                 # level += 1
 
             # display game over if no lives
+
             if ball.rect.bottom >= screen.get_height():
                 lives -= 1
                 # Game Over
 
-                if lives == 0:
-                    if lives <= 0:
-                        try:
-                            os.remove('..//data//file')
-                        except FileNotFoundError:
-                            pass
-                        continue
+            if lives == 0:
+                try:
+                    os.remove('..//data//file')
+                except FileNotFoundError:
+
                     lives = 3
                     state = GAME_OVER
                     screen.fill(Colors.BLACK)
