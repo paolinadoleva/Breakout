@@ -233,6 +233,8 @@ def brick_gen():
     return brick_list
 
 
+
+
 '''
 ----------------------------MAIN METHOD---------------------
 '''
@@ -287,11 +289,20 @@ def main():
     PLAY = "Play"
     PAUSED = "Paused"
     MAIN_SCREEN = "Welcome To Breakout"
+    EASY_SCREEN = "Easy"
     state = MAIN_SCREEN
     exit_requested = False
 
     # Initialize clock
     clock = pygame.time.Clock()
+    '''
+    ---------------------------------------------------------------------
+    '''
+
+
+    '''
+    ----------------------------------------------------------------------
+    '''
 
     # Event loop
     while not exit_requested:
@@ -322,7 +333,37 @@ def main():
 
         if state == MAIN_SCREEN:
 
-            draw_text_to_screen(screen, "Welcome", 300, 400, Colors.WHITE, Fonts.TITLE_FONT)
+            draw_text_to_screen(screen, "Welcome", 250, 100, Colors.WHITE, Fonts.TITLE_FONT)
+            draw_text_to_screen(screen, "Easy", 250, 300, Colors.WHITE, Fonts.TITLE_FONT)
+            draw_text_to_screen(screen, "Hard", 250, 400, Colors.WHITE, Fonts.TITLE_FONT)
+
+            # global click
+            # mouse = pygame.mouse.get_pos()
+            # click = pygame.mouse.get_pressed()
+            #
+            # for event in events:
+            #     if event.type == pygame.MOUSEMOTION:
+            #         if click[0] == 1:
+            #             state = EASY_SCREEN
+            # for event in events:
+            #     if event.type == pygame.MOUSEBUTTONDOWN:
+            #         if mouse[0] == 250:
+            #             if pygame.MOUSEBUTTONUP:
+            #                 state = EASY_SCREEN
+
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        state = PLAY
+                        screen.fill(Colors.BLACK)
+                        brick_list.clear()
+                        brick_list = brick_gen()
+                        ball.set_bricks(brick_list)
+                        bricksprite = pygame.sprite.RenderPlain(brick_list)
+
+        elif state == EASY_SCREEN:
+
+            draw_text_to_screen(screen, "Easy", 250, 300, Colors.WHITE, Fonts.TITLE_FONT)
 
             for event in events:
                 if event.type == pygame.KEYDOWN:
@@ -460,3 +501,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+    # print(click)
+    # print(pygame.mouse.get_focused())
