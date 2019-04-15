@@ -201,38 +201,37 @@ class Brick(Paddle):
     def is_dead(self):
         return self.hp <= 0
 
-    def brick_gen(self):
-        b = []
-        self.x = 0
-        self.y = 0
-        # for new_x in range(0, 1025, 128):
-        #     for new_y in range(0, 393, 64):
-        #         block = Brick(new_x, new_y + 40, 1)
-        #         b.append(block)
-        b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
-        b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
-        for i in b:
-            self.x = [0]
-            self.y = [1]
-        return b
-
 
 def brick_gen():
-    brick_list = []
+    b = []
     x = 0
     y = 0
     # for new_x in range(0, 1025, 128):
     #     for new_y in range(0, 393, 64):
     #         block = Brick(new_x, new_y + 40, 1)
     #         b.append(block)
-    brick_list.append(Brick(random.randint(0, 500), random.randint(0, 500)))
-    brick_list.append(Brick(random.randint(0, 500), random.randint(0, 500)))
-    for i in brick_list:
+    b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
+    b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
+    for i in b:
         x = [0]
         y = [1]
+    return b
+
+
+def brick_gen_hard():
+    brick_list = []
+    # x = 0
+    # y = 0
+    for new_x in range(0, 1025, 128):
+        for new_y in range(0, 393, 64):
+            block = Brick(new_x, new_y + 40, 1)
+            brick_list.append(block)
+    # brick_list.append(Brick(random.randint(0, 500), random.randint(0, 500)))
+    # brick_list.append(Brick(random.randint(0, 500), random.randint(0, 500)))
+    # for i in brick_list:
+    #     x = [0]
+    #     y = [1]
     return brick_list
-
-
 
 
 '''
@@ -290,6 +289,7 @@ def main():
     PAUSED = "Paused"
     MAIN_SCREEN = "Welcome To Breakout"
     EASY_SCREEN = "Easy"
+    HARD_SCREEN = "Hard"
     state = MAIN_SCREEN
     exit_requested = False
 
@@ -298,7 +298,6 @@ def main():
     '''
     ---------------------------------------------------------------------
     '''
-
 
     '''
     ----------------------------------------------------------------------
@@ -310,6 +309,13 @@ def main():
         clock.tick(60)
 
         events = pygame.event.get()
+
+        # for event in events:
+        #     if event.type == pygame.MOUSEBUTTONUP:
+        #         pos = pygame.mouse.get_pos()
+        #
+        #         clicked_sprites = [s for s in ]
+
         # global ball, player1, brick, score
         # try:
         #     ball, paddle, bricks, score, lives, level = bin_io.read_file("..//data//file")
@@ -338,9 +344,17 @@ def main():
             draw_text_to_screen(screen, "Hard", 250, 400, Colors.WHITE, Fonts.TITLE_FONT)
 
             # global click
+            #
             # mouse = pygame.mouse.get_pos()
             # click = pygame.mouse.get_pressed()
-            #
+
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_e:
+                        state = EASY_SCREEN
+                    elif event.key == pygame.K_h:
+                        state = HARD_SCREEN
+
             # for event in events:
             #     if event.type == pygame.MOUSEMOTION:
             #         if click[0] == 1:
@@ -351,15 +365,18 @@ def main():
             #             if pygame.MOUSEBUTTONUP:
             #                 state = EASY_SCREEN
 
-            for event in events:
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        state = PLAY
-                        screen.fill(Colors.BLACK)
-                        brick_list.clear()
-                        brick_list = brick_gen()
-                        ball.set_bricks(brick_list)
-                        bricksprite = pygame.sprite.RenderPlain(brick_list)
+            # for event in events:
+            #     if event.type == pygame.KEYDOWN:
+            #         if event.key == pygame.K_SPACE:
+            #             state = PLAY
+            #             screen.fill(Colors.BLACK)
+            #             brick_list.clear()
+            #             brick_list = brick_gen()
+            #             ball.set_bricks(brick_list)
+            #             bricksprite = pygame.sprite.RenderPlain(brick_list)
+
+
+
 
         elif state == EASY_SCREEN:
 
@@ -375,6 +392,19 @@ def main():
                         ball.set_bricks(brick_list)
                         bricksprite = pygame.sprite.RenderPlain(brick_list)
 
+        elif state == HARD_SCREEN:
+
+            draw_text_to_screen(screen, "Easy", 250, 300, Colors.WHITE, Fonts.TITLE_FONT)
+
+            for event in events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        state = PLAY
+                        screen.fill(Colors.BLACK)
+                        brick_list.clear()
+                        brick_list = brick_gen_hard()
+                        ball.set_bricks(brick_list)
+                        bricksprite = pygame.sprite.RenderPlain(brick_list)
 
         elif state == LEVEL_SCREEN:
 
