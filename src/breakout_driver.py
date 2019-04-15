@@ -290,44 +290,20 @@ def main():
     MAIN_SCREEN = "Welcome To Breakout"
     EASY_SCREEN = "Easy"
     HARD_SCREEN = "Hard"
+    TETRIS_SCREEN = "Tetris"
     state = MAIN_SCREEN
     exit_requested = False
 
     # Initialize clock
     clock = pygame.time.Clock()
-    '''
-    ---------------------------------------------------------------------
-    '''
 
-    '''
-    ----------------------------------------------------------------------
-    '''
-
+    count = 0
     # Event loop
     while not exit_requested:
         # Make sure game doesn't run at more than 60 frames per second
         clock.tick(60)
 
         events = pygame.event.get()
-
-        # for event in events:
-        #     if event.type == pygame.MOUSEBUTTONUP:
-        #         pos = pygame.mouse.get_pos()
-        #
-        #         clicked_sprites = [s for s in ]
-
-        # global ball, player1, brick, score
-        # try:
-        #     ball, paddle, bricks, score, lives, level = bin_io.read_file("..//data//file")
-        # except FileNotFoundError:
-        #     ball = Ball((math.pi/2,10))
-        #     player1 = Paddle()
-
-        # for event in events:
-        #     if event.type == pygame.QUIT:
-        #         exit_requested = True
-        # if exit_requested:
-        #     continue
 
         for event in events:
             if event.type == pygame.QUIT:
@@ -339,9 +315,10 @@ def main():
 
         if state == MAIN_SCREEN:
 
-            draw_text_to_screen(screen, "Welcome", 250, 100, Colors.WHITE, Fonts.TITLE_FONT)
-            draw_text_to_screen(screen, "Easy", 250, 300, Colors.WHITE, Fonts.TITLE_FONT)
-            draw_text_to_screen(screen, "Hard", 250, 400, Colors.WHITE, Fonts.TITLE_FONT)
+            draw_text_to_screen(screen, "Breakout", 250, 100, Colors.WHITE, Fonts.TITLE_FONT)
+            draw_text_to_screen(screen, "Easy", 250, 300, Colors.WHITE, Fonts.SUBTITLE_FONT)
+            draw_text_to_screen(screen, "Hard", 250, 400, Colors.WHITE, Fonts.SUBTITLE_FONT)
+            draw_text_to_screen(screen, "Tetris", 250, 500, Colors.WHITE, Fonts.SUBTITLE_FONT)
 
             # global click
             #
@@ -354,6 +331,8 @@ def main():
                         state = EASY_SCREEN
                     elif event.key == pygame.K_h:
                         state = HARD_SCREEN
+                    elif event.key == pygame.K_t:
+                        state = TETRIS_SCREEN
 
             # for event in events:
             #     if event.type == pygame.MOUSEMOTION:
@@ -394,8 +373,6 @@ def main():
 
         elif state == HARD_SCREEN:
 
-            draw_text_to_screen(screen, "Easy", 250, 300, Colors.WHITE, Fonts.TITLE_FONT)
-
             for event in events:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
@@ -405,6 +382,21 @@ def main():
                         brick_list = brick_gen_hard()
                         ball.set_bricks(brick_list)
                         bricksprite = pygame.sprite.RenderPlain(brick_list)
+
+
+        elif state == TETRIS_SCREEN:
+
+            if (count % 10 == 0):
+                for brick in brick_list:
+                    brick.rect.bottom += 1
+                    if brick.rect.bottom >= screen.get_height():
+                        state = GAME_OVER
+                        screen.fill((0, 0, 0))
+                        player1.still()
+                        brick_list = brick_gen()
+                        bricksprite = pygame.sprite.RenderPlain(brick_list)
+
+
 
         elif state == LEVEL_SCREEN:
 
@@ -421,7 +413,7 @@ def main():
                         bricksprite = pygame.sprite.RenderPlain(brick_list)
                         level += 1
 
-                        # player1.still()
+
 
 
         elif state == GAME_OVER:
