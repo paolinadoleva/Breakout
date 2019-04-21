@@ -189,7 +189,10 @@ class Brick(Paddle):
 
     def __init__(self, x=0, y=0, health=1):
         Paddle.__init__(self)
-        self.image = load_png('basic_block.png')
+        if health == 1:
+            self.image = load_png('basic_block.png')
+        else:
+            self.image = load_png('hard_block.png')
         self.rect = self.image.get_rect()
         self.hp = health
         self.rect.x = x
@@ -206,12 +209,12 @@ def brick_gen():
     b = []
     x = 0
     y = 0
-    # for new_x in range(0, 1025, 128):
-    #     for new_y in range(0, 393, 64):
-    #         block = Brick(new_x, new_y + 40, 1)
-    #         b.append(block)
-    b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
-    b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
+    for new_x in range(0, 1025, 128):
+        for new_y in range(0, 393, 64):
+            block = Brick(new_x, new_y + 40, 1)
+            b.append(block)
+    # b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
+    # b.append(Brick(random.randint(0, 500), random.randint(0, 500)))
     for i in b:
         x = [0]
         y = [1]
@@ -222,12 +225,12 @@ def brick_gen_hard():
     brick_list = []
     # x = 0
     # y = 0
-    for new_x in range(0, 1025, 128):
-        for new_y in range(0, 393, 64):
-            block = Brick(new_x, new_y + 40, 1)
-            brick_list.append(block)
-    # brick_list.append(Brick(random.randint(0, 500), random.randint(0, 500)))
-    # brick_list.append(Brick(random.randint(0, 500), random.randint(0, 500)))
+    # for new_x in range(0, 1025, 128):
+    #     for new_y in range(0, 393, 64):
+    #         block = Brick(new_x, new_y + 40, 3)
+    #         brick_list.append(block)
+    brick_list.append(Brick(random.randint(0, 500), random.randint(0, 500), 3))
+    brick_list.append(Brick(random.randint(0, 500), random.randint(0, 500), 3))
     # for i in brick_list:
     #     x = [0]
     #     y = [1]
@@ -280,6 +283,19 @@ def main():
     screen.blit(background, (0, 0))
     pygame.display.flip()
 
+    def tetris_gen(brick_list):
+        count = 0
+        if (count % 10 == 0):
+            for brick in brick_list:
+                brick.rect.bottom += 1
+                if brick.rect.bottom >= screen.get_height():
+                    state = GAME_OVER
+                    screen.fill((0, 0, 0))
+                    player1.still()
+                    brick_list = brick_gen()
+                    bricksprite = pygame.sprite.RenderPlain(brick_list)
+        count += 1
+
     # GAME STATES
 
     SAVE = "Save"
@@ -294,10 +310,11 @@ def main():
     state = MAIN_SCREEN
     exit_requested = False
 
+    best_score = 0
+
     # Initialize clock
     clock = pygame.time.Clock()
 
-    count = 0
     # Event loop
     while not exit_requested:
         # Make sure game doesn't run at more than 60 frames per second
@@ -315,10 +332,20 @@ def main():
 
         if state == MAIN_SCREEN:
 
-            draw_text_to_screen(screen, "Breakout", 250, 100, Colors.WHITE, Fonts.TITLE_FONT)
-            draw_text_to_screen(screen, "Easy", 250, 300, Colors.WHITE, Fonts.SUBTITLE_FONT)
-            draw_text_to_screen(screen, "Hard", 250, 400, Colors.WHITE, Fonts.SUBTITLE_FONT)
-            draw_text_to_screen(screen, "Tetris", 250, 500, Colors.WHITE, Fonts.SUBTITLE_FONT)
+            draw_text_to_screen(screen, "BREAKOUT", 320, 100, Colors.WHITE, Fonts.TITLE_FONT)
+            draw_text_to_screen(screen, "New Game (n)", 420, 200, Colors.WHITE, Fonts.SUBTITLE_FONT)
+            draw_text_to_screen(screen, "(or choose a state to continue playing)", 300, 250, Colors.WHITE,
+                                Fonts.TEXT_FONT)
+            draw_text_to_screen(screen, "Easy (e)", 480, 280, Colors.WHITE, Fonts.SUBTITLE_FONT)
+            draw_text_to_screen(screen, "Hard (h)", 480, 340, Colors.WHITE, Fonts.SUBTITLE_FONT)
+            draw_text_to_screen(screen, "Tetris (t)", 470, 395, Colors.WHITE, Fonts.SUBTITLE_FONT)
+
+            # figure out how to actually add the score
+            draw_text_to_screen(screen, "Best Score: ", 100, 590, Colors.WHITE, Fonts.TEXT_FONT)
+
+            if best_score < score:
+                best_score = score
+            draw_text_to_screen(screen, str(score), 250, 590, Colors.WHITE, Fonts.TEXT_FONT)
 
             # global click
             #
@@ -327,7 +354,10 @@ def main():
 
             for event in events:
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_e:
+                    if event.key == pygame.K_n:
+                        os.remove('..//data//file')
+                        state = MAIN_SCREEN
+                    elif event.key == pygame.K_e:
                         state = EASY_SCREEN
                     elif event.key == pygame.K_h:
                         state = HARD_SCREEN
@@ -359,62 +389,67 @@ def main():
 
         elif state == EASY_SCREEN:
 
-            draw_text_to_screen(screen, "Easy", 250, 300, Colors.WHITE, Fonts.TITLE_FONT)
-
             for event in events:
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        state = PLAY
-                        screen.fill(Colors.BLACK)
-                        brick_list.clear()
-                        brick_list = brick_gen()
-                        ball.set_bricks(brick_list)
-                        bricksprite = pygame.sprite.RenderPlain(brick_list)
+                if event.key == pygame.K_e:
+                    state = PLAY
+                    screen.fill(Colors.BLACK)
+                    brick_list.clear()
+                    brick_list = brick_gen()
+                    ball.set_bricks(brick_list)
+                    bricksprite = pygame.sprite.RenderPlain(brick_list)
+
 
         elif state == HARD_SCREEN:
 
             for event in events:
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        state = PLAY
-                        screen.fill(Colors.BLACK)
-                        brick_list.clear()
-                        brick_list = brick_gen_hard()
-                        ball.set_bricks(brick_list)
-                        bricksprite = pygame.sprite.RenderPlain(brick_list)
+                if event.key == pygame.K_h:
+                    state = PLAY
+                    screen.fill(Colors.BLACK)
+                    brick_list.clear()
+                    brick_list = brick_gen_hard()
+                    ball.set_bricks(brick_list)
+                    bricksprite = pygame.sprite.RenderPlain(brick_list)
 
 
         elif state == TETRIS_SCREEN:
 
-            if (count % 10 == 0):
-                for brick in brick_list:
-                    brick.rect.bottom += 1
-                    if brick.rect.bottom >= screen.get_height():
-                        state = GAME_OVER
-                        screen.fill((0, 0, 0))
-                        player1.still()
-                        brick_list = brick_gen()
-                        bricksprite = pygame.sprite.RenderPlain(brick_list)
-
-
-
-        elif state == LEVEL_SCREEN:
-
-            draw_text_to_screen(screen, "Level Up", 300, 400, Colors.WHITE, Fonts.TITLE_FONT)
-
             for event in events:
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        state = PLAY
-                        screen.fill(Colors.BLACK)
-                        brick_list.clear()
-                        brick_list = brick_gen()
-                        ball.set_bricks(brick_list)
-                        bricksprite = pygame.sprite.RenderPlain(brick_list)
-                        level += 1
+                if event.key == pygame.K_t:
+                    state = PLAY
+                    screen.fill(Colors.BLACK)
+                    brick_list.clear()
+                    brick_list = brick_gen()
+                    tetris_gen(brick_list)
+                    ball.set_bricks(brick_list)
+                    bricksprite = pygame.sprite.RenderPlain(brick_list)
+
+                # if (count % 10 == 0):
+                #     for brick in brick_list:
+                #         brick.rect.bottom += 1
+                #         if brick.rect.bottom >= screen.get_height():
+                #             state = GAME_OVER
+                #             screen.fill((0, 0, 0))
+                #             player1.still()
+                #             brick_list = brick_gen()
+                #             bricksprite = pygame.sprite.RenderPlain(brick_list)
+                # count += 1
 
 
 
+        # elif state == LEVEL_SCREEN:
+        #
+        #     draw_text_to_screen(screen, "Level Up", 300, 400, Colors.WHITE, Fonts.TITLE_FONT)
+        #
+        #     for event in events:
+        #         if event.type == pygame.KEYDOWN:
+        #             if event.key == pygame.K_SPACE:
+        #                 state = PLAY
+        #                 screen.fill(Colors.BLACK)
+        #                 brick_list.clear()
+        #                 brick_list = brick_gen()
+        #                 ball.set_bricks(brick_list)
+        #                 bricksprite = pygame.sprite.RenderPlain(brick_list)
+        #                 level += 1
 
         elif state == GAME_OVER:
             # Game Over Out
@@ -427,12 +462,9 @@ def main():
             for event in events:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
-                        state = PLAY
+                        state = MAIN_SCREEN
                         screen.fill(Colors.BLACK)
                         brick_list.clear()
-                        brick_list = brick_gen()
-                        ball.set_bricks(brick_list)
-                        bricksprite = pygame.sprite.RenderPlain(brick_list)
                         score = 0
                         level = 1
                         lives = 3
